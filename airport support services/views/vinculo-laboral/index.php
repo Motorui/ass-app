@@ -7,36 +7,46 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\VinculoLaboralSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Vinculo Laborals';
+$this->title = 'Vinculos Laborais';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="vinculo-laboral-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Vinculo Laboral', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            'id_vinculo',
-            'id_colaborador',
+            [
+                'attribute' => 'id_colaborador',
+                'value' => 'idColaborador.nome_colaborador',
+            ],
             'num_pw',
             'num_cartao',
             'validade_cartao',
-            // 'id_contrato',
-            // 'inicio_contrato',
-            // 'fim_contrato',
-            // 'id_carga_horaria',
-            // 'id_ccusto',
+            [
+                'attribute' => 'id_contrato',
+                'value' => 'idContrato.tipo_contrato',
+            ],
+            'inicio_contrato',
+            'fim_contrato',
+            [
+                'attribute' => 'id_carga_horaria',
+                'value' => 'idCargaHoraria.desc_carga_horaria',
+            ],
+            [
+                'attribute' => 'id_ccusto',
+                'value' => 'idCcusto.num_ccusto',
+            ],
             // 'id_avenca',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+
+    <p>
+        <?= Html::a('Criar Vinculo Laboral', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
 </div>

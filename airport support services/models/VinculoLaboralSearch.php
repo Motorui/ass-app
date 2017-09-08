@@ -57,6 +57,8 @@ class VinculoLaboralSearch extends VinculoLaboral
             return $dataProvider;
         }
 
+        $query->joinWith('idColaborador');
+        
         // grid filtering conditions
         $query->andFilterWhere([
             'id_vinculo' => $this->id_vinculo,
@@ -71,6 +73,29 @@ class VinculoLaboralSearch extends VinculoLaboral
             'id_ccusto' => $this->id_ccusto,
             'id_avenca' => $this->id_avenca,
         ]);
+
+        return $dataProvider;
+    }
+
+    public function searchVinculoLaboral($params)
+    {
+        $query = VinculoLaboral::find();
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        $query->andFilterWhere([
+            'id_vinculo' => $this->id_vinculo,
+            'id_colaborador' => $this->id_colaborador,
+        ]);
+
+        // grid filtering conditions
+        $query->andFilterWhere(['like', 'id_colaborador', $this->id_colaborador]);
 
         return $dataProvider;
     }

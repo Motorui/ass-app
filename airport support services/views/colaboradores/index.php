@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use kartik\grid\GridView;
 use dosamigos\datepicker\DatePicker;
 use yii\widgets\Pjax;
+use app\models\VinculoLaboralSearch;
 use app\models\ContactosSearch;
 
 /* @var $this yii\web\View */
@@ -28,13 +29,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     return GridView::ROW_COLLAPSED;
                 },
                 'detail' => function($model, $key, $index, $column){
-                    $searchModel = new ContactosSearch();
-                    $searchModel->id_colaborador = $model->id_colaborador;
-                    $dataProvider = $searchModel->searchContacto(Yii::$app->request->queryParams);
+                    $searchModelVinculoLaboral = new VinculoLaboralSearch();
+                    $searchModelVinculoLaboral->id_colaborador = $model->id_colaborador;
+                    $dataProviderVinculoLaboral = $searchModelVinculoLaboral->searchVinculoLaboral(Yii::$app->request->queryParams);
 
-                    return Yii::$app->controller->renderPartial('_contactos', [
-                        'searchModel' => $searchModel,
-                        'dataProvider' => $dataProvider,
+                    $searchModelContactos = new ContactosSearch();
+                    $searchModelContactos->id_colaborador = $model->id_colaborador;
+                    $dataProviderContactos = $searchModelContactos->searchContacto(Yii::$app->request->queryParams);
+
+                    return Yii::$app->controller->renderPartial('_detalhesGrid', [
+                        'searchModelVinculoLaboral' => $searchModelVinculoLaboral,
+                        'dataProviderVinculoLaboral' => $dataProviderVinculoLaboral,
+                        'searchModelContactos' => $searchModelContactos,
+                        'dataProviderContactos' => $dataProviderContactos,
                     ]);
                 },
             ],

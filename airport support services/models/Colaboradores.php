@@ -42,9 +42,7 @@ class Colaboradores extends \yii\db\ActiveRecord
             [['nome_colaborador', 'email_colaborador'], 'string', 'max' => 200],
             [['identificao_colaborador'], 'string', 'max' => 25],
             [['nome_colaborador'], 'unique'],
-            [['email_colaborador'], 'unique'],
             [['email_colaborador'], 'email'],
-            [['identificao_colaborador'], 'unique'],
         ];
     }
 

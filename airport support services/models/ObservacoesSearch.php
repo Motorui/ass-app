@@ -19,7 +19,7 @@ class ObservacoesSearch extends Observacoes
     {
         return [
             [['id_observacao', 'id_colaborador'], 'integer'],
-            [['titulo_observacao', 'observacao'], 'safe'],
+            [['titulo_observacao', 'observacao', 'data_observacao'], 'safe'],
         ];
     }
 
@@ -61,6 +61,7 @@ class ObservacoesSearch extends Observacoes
         $query->andFilterWhere([
             'id_observacao' => $this->id_observacao,
             'id_colaborador' => $this->id_colaborador,
+            'data_observacao' => $this->data_observacao,
         ]);
 
         $query->andFilterWhere(['like', 'titulo_observacao', $this->titulo_observacao])

@@ -28,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id_colaborador',
             'titulo_observacao',
             'observacao:ntext',
+            'data_observacao',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

@@ -7,6 +7,7 @@ use app\models\MultiplosContactos;
 use app\models\Colaboradores;
 use app\models\ColaboradoresSearch;
 use app\models\Contactos;
+use app\models\VinculoLaboral;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -68,20 +69,28 @@ class ColaboradoresController extends Controller
     {
         $model = new Colaboradores();
         $modelsContactos = [new Contactos];
+        $modelVinculoLaboral = new VinculoLaboral();
 
-        if ( $model->load(Yii::$app->request->post()) && $model->save() ) 
+        if ( $model->load( Yii::$app->request->post()) 
+            && $modelVinculoLaboral->load(Yii::$app->request->post()) ) 
         {
             $modelsContactos = MultiplosContactos::createMultiple(Contactos::classname());
             MultiplosContactos::loadMultiple($modelsContactos, Yii::$app->request->post());
 
             // validate all models
             $valid = $model->validate();
+            $Valid = $modelVinculoLaboral->validate() && $valid;
             $valid = MultiplosContactos::validateMultiple($modelsContactos) && $valid;
             
             if ($valid) {
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
+
                     if ($flag = $model->save(false)) {
+
+                        $modelVinculoLaboral->id_colaborador = $model->id_colaborador;
+                        $modelVinculoLaboral->save(false);
+
                         foreach ($modelsContactos as $modelContactos) {
                             $modelContactos->id_colaborador = $model->id_colaborador;
                             if (! ($flag = $modelContactos->save(false))) {
@@ -102,7 +111,8 @@ class ColaboradoresController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'modelsContactos' => (empty($modelsContactos)) ? [new Contactos] : $modelsContactos
+                'modelsContactos' => (empty($modelsContactos)) ? [new Contactos] : $modelsContactos,
+                'modelVinculoLaboral' => $modelVinculoLaboral,
             ]);
         }
     }
@@ -117,8 +127,12 @@ class ColaboradoresController extends Controller
     {
         $model = $this->findModel($id);
         $modelsContactos = $model->contactos;
+        $modelVinculoLaboral = $model->vinculoLaboral;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ( $model->load(Yii::$app->request->post()) 
+            && $modelVinculoLaboral->load(Yii::$app->request->post()) 
+            && $model->save() && $modelVinculoLaboral->save() ) 
+        {
 
             $oldIDs = ArrayHelper::map($modelsContactos, 'id_contacto', 'id_contacto');
             $modelsContactos = MultiplosContactos::createMultiple(Contactos::classname(), $modelsContactos);
@@ -155,7 +169,8 @@ class ColaboradoresController extends Controller
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'modelsContactos' => (empty($modelsContactos)) ? [new Contactos] : $modelsContactos
+                'modelsContactos' => (empty($modelsContactos)) ? [new Contactos] : $modelsContactos,
+                'modelVinculoLaboral' => $modelVinculoLaboral,
             ]);
         }
     }
@@ -173,6 +188,11 @@ class ColaboradoresController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function beforeDelete(){
+        foreach($this->location_children as $c)
+            $c->delete();
+        return parent::beforeDelete();
+    }
     /**
      * Finds the Colaboradores model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -192,6 +212,14 @@ class ColaboradoresController extends Controller
     protected function findContactos($id)
     {
         if (($model = Contactos::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+    protected function findVinculoLaboral($id)
+    {
+        if (($model = VinculoLaboral::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

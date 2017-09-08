@@ -41,7 +41,7 @@ class VinculoLaboral extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_colaborador'], 'required'],
+            [['id_colaborador', 'num_pw', 'num_cartao', 'id_contrato', 'id_carga_horaria', 'id_ccusto', 'validade_cartao', 'inicio_contrato'], 'required'],
             [['id_colaborador', 'num_pw', 'num_cartao', 'id_contrato', 'id_carga_horaria', 'id_ccusto', 'id_avenca'], 'integer'],
             [['validade_cartao', 'inicio_contrato', 'fim_contrato'], 'safe'],
             [['id_colaborador'], 'unique'],
@@ -62,16 +62,16 @@ class VinculoLaboral extends \yii\db\ActiveRecord
     {
         return [
             'id_vinculo' => 'Id Vinculo',
-            'id_colaborador' => 'Id Colaborador',
-            'num_pw' => 'Num Pw',
-            'num_cartao' => 'Num Cartao',
-            'validade_cartao' => 'Validade Cartao',
-            'id_contrato' => 'Id Contrato',
-            'inicio_contrato' => 'Inicio Contrato',
-            'fim_contrato' => 'Fim Contrato',
-            'id_carga_horaria' => 'Id Carga Horaria',
-            'id_ccusto' => 'Id Ccusto',
-            'id_avenca' => 'Id Avenca',
+            'id_colaborador' => 'Colaborador',
+            'num_pw' => 'Número portWay',
+            'num_cartao' => 'Número Cartão',
+            'validade_cartao' => 'Validade Cartão',
+            'id_contrato' => 'Tipo de Contrato',
+            'inicio_contrato' => 'Data de início de Contrato',
+            'fim_contrato' => 'Data de Fim de Contrato',
+            'id_carga_horaria' => 'Carga Horaria',
+            'id_ccusto' => 'Centro de Custo',
+            'id_avenca' => 'Avenca',
         ];
     }
 
