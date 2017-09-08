@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "contactos".
+ * This is the model class for table "{{%contactos}}".
  *
  * @property integer $id_contacto
  * @property integer $id_colaborador
@@ -20,7 +20,7 @@ class Contactos extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'contactos';
+        return '{{%contactos}}';
     }
 
     /**
@@ -29,7 +29,7 @@ class Contactos extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            //[['contacto'], 'required'],
+            [['id_colaborador', 'contacto'], 'required'],
             [['id_colaborador', 'contacto'], 'integer'],
             [['id_colaborador'], 'exist', 'skipOnError' => true, 'targetClass' => Colaboradores::className(), 'targetAttribute' => ['id_colaborador' => 'id_colaborador']],
         ];
@@ -41,9 +41,9 @@ class Contactos extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_contacto' => 'Id Contacto',
-            'id_colaborador' => 'Colaborador',
-            'contacto' => 'Contacto',
+            'id_contacto' => Yii::t('app', 'Id Contacto'),
+            'id_colaborador' => Yii::t('app', 'Id Colaborador'),
+            'contacto' => Yii::t('app', 'Contacto'),
         ];
     }
 

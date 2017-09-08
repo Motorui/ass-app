@@ -44,7 +44,7 @@ class CentrosCusto extends \yii\db\ActiveRecord
         return [
             'id_ccusto' => Yii::t('app', 'Id'),
             'num_ccusto' => Yii::t('app', 'Número'),
-            'nome_ccusto' => Yii::t('app', 'Nome'),
+            'nome_ccusto' => Yii::t('app', 'Centro de Custo'),
         ];
     }
 

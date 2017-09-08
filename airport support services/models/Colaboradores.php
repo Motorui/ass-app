@@ -124,6 +124,14 @@ class Colaboradores extends \yii\db\ActiveRecord
         return $this->hasMany(Contactos::className(), ['id_colaborador' => 'id_colaborador']);
     }
 
+    function getContactosColaborador() {
+        $string = '';
+        foreach ($this->contactos as $cat) {
+            $string .= $cat->contacto . "   ";
+        }
+        return $string;
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */

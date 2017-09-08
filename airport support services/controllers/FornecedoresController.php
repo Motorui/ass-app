@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Colaboradores;
-use app\models\ColaboradoresSearch;
+use app\models\Fornecedores;
+use app\models\FornecedoresSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ColaboradoresController implements the CRUD actions for Colaboradores model.
+ * FornecedoresController implements the CRUD actions for Fornecedores model.
  */
-class ColaboradoresController extends Controller
+class FornecedoresController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,12 +30,12 @@ class ColaboradoresController extends Controller
     }
 
     /**
-     * Lists all Colaboradores models.
+     * Lists all Fornecedores models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ColaboradoresSearch();
+        $searchModel = new FornecedoresSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -44,45 +44,29 @@ class ColaboradoresController extends Controller
         ]);
     }
 
-    public function actionViewccusto($id)
-    {
-        $searchModel = new ColaboradoresSearch();
-        $searchModel->id_ccusto = $id;
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        //$dataProvider = $searchModel->searchByCcusto(Yii::$app->request->queryParams);
-
-        return $this->render('viewccusto', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
     /**
-     * Displays a single Colaboradores model.
+     * Displays a single Fornecedores model.
      * @param integer $id
      * @return mixed
      */
     public function actionView($id)
     {
-        $model = $this->findModel($id);
-        $modelsContactos = $model->contactos;
-
         return $this->render('view', [
-            'model' => $model,
-            'modelsContactos' => $modelsContactos,
+            'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new Colaboradores model.
+     * Creates a new Fornecedores model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Colaboradores();
+        $model = new Fornecedores();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_colaborador]);
+            return $this->redirect(['view', 'id' => $model->id_fornecedor]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -91,7 +75,7 @@ class ColaboradoresController extends Controller
     }
 
     /**
-     * Updates an existing Colaboradores model.
+     * Updates an existing Fornecedores model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -101,7 +85,7 @@ class ColaboradoresController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_colaborador]);
+            return $this->redirect(['view', 'id' => $model->id_fornecedor]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -110,7 +94,7 @@ class ColaboradoresController extends Controller
     }
 
     /**
-     * Deletes an existing Colaboradores model.
+     * Deletes an existing Fornecedores model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -123,19 +107,18 @@ class ColaboradoresController extends Controller
     }
 
     /**
-     * Finds the Colaboradores model based on its primary key value.
+     * Finds the Fornecedores model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Colaboradores the loaded model
+     * @return Fornecedores the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Colaboradores::findOne($id)) !== null) {
+        if (($model = Fornecedores::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-
 }

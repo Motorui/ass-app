@@ -13,17 +13,13 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="colaboradores-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
+    
     <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id_colaborador], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id_colaborador], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
+        <?= $this->render('_formContactos', [
+            'model' => $model,
+            'modelsContactos' => $modelsContactos,
         ]) ?>
-    </p>
+    </p>    
 
     <?= DetailView::widget([
         'model' => $model,
@@ -37,13 +33,37 @@ $this->params['breadcrumbs'][] = $this->title;
             'num_pw',
             'num_cartao',
             'validade_cartao:date',
-            'id_contrato',
+            [
+                'attribute'=>'id_contrato',
+                'value'=>$model->idContrato->tipo_contrato,
+            ],
             'inicio_contrato:date',
             'fim_contrato:date',
-            'id_carga_horaria',
-            'id_ccusto',
-            'id_avenca',
+            [
+                'attribute'=>'id_carga_horaria',
+                'value'=>$model->idCargaHoraria->desc_carga_horaria,
+            ],
+            [
+                'attribute'=>'id_ccusto',
+                'value'=>$model->idCcusto->nome_ccusto,
+            ],            
+            [
+                'attribute'=>'Contactos',
+                'value'=> $model->getContactosColaborador(),
+            ],
+
         ],
     ]) ?>
+
+    <p>
+        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id_colaborador], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id_colaborador], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                'method' => 'post',
+            ],
+        ]) ?>
+    </p>
 
 </div>

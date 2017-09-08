@@ -33,9 +33,11 @@ AppAsset::register($this);
                 'label' => 'Trabalho',
                 'items' => [
                      ['label' => 'Colaboradores', 'url' => ['/colaboradores']],
+                     ['label' => 'Faturas', 'url' => ['/faturas']],
                      '<li class="divider"></li>',
                      '<li class="dropdown-header">Outros</li>',
                      ['label' => 'Centros de Custo', 'url' => ['/centros-custo']],
+                     ['label' => 'Fornecedores', 'url' => ['/fornecedores']],
                 ],
             ],
             ['label' => 'About', 'url' => ['/site/about']],
