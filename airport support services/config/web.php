@@ -9,7 +9,7 @@ $config = [
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => '65f4dgh65f4gd64df6g464fhbdfhd4hfg64fhd64hfgx64',
+            'cookieValidationKey' => 'RuiAlexandreAlvesPereira05041976',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -38,25 +38,16 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
-        // 'urlManager' => [
-        //     'enablePrettyUrl' => true,
-        //     'showScriptName' => true,
-        // ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [
+            // Your rules here
+            ],
+        ],      
     ],
     'params' => $params,
-    
-    'modules' => [
-        'gridview' =>  [
-            'class' => '\kartik\grid\Module'
-            // enter optional module parameters below - only if you need to  
-            // use your own export download action or custom translation 
-            // message source
-            // 'downloadAction' => 'gridview/export/download',
-            // 'i18n' => []
-        ]
-    ],
 ];
-
 
 if (YII_ENV_DEV) {
     // configuration adjustments for 'dev' environment
