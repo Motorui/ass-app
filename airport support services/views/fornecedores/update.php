@@ -5,12 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Fornecedores */
 
-$this->title = Yii::t('app', 'Update {modelClass}: ', [
-    'modelClass' => 'Fornecedores',
-]) . $model->id_fornecedor;
+$this->title = Yii::t('app', 'Atualizar: ') . $model->nome_fornecedor;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Fornecedores'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id_fornecedor, 'url' => ['view', 'id' => $model->id_fornecedor]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+$this->params['breadcrumbs'][] = ['label' => $model->nome_fornecedor, 'url' => ['view', 'id' => $model->id_fornecedor]];
+$this->params['breadcrumbs'][] = Yii::t('app', 'Atualizar');
 ?>
 <div class="fornecedores-update">
 

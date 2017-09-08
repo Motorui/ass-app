@@ -8,6 +8,7 @@ use app\models\FornecedoresSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\db\Expression;
 
 /**
  * FornecedoresController implements the CRUD actions for Fornecedores model.
@@ -65,7 +66,12 @@ class FornecedoresController extends Controller
     {
         $model = new Fornecedores();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+
+            $model->user_id = Yii::$app->user->id;
+            $model->data_criacao_fornecedor = new Expression('NOW()');
+            $model->data_alteracao_fornecedor = new Expression('NOW()');
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id_fornecedor]);
         } else {
             return $this->render('create', [
@@ -84,7 +90,11 @@ class FornecedoresController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+
+            $model->user_id = Yii::$app->user->id;
+            $model->data_alteracao_fornecedor = new Expression('NOW()');
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id_fornecedor]);
         } else {
             return $this->render('update', [

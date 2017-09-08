@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\CentrosCusto */
 
-$this->title = Yii::t('app', 'Create Centros Custo');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Centros Custos'), 'url' => ['index']];
+$this->title = Yii::t('app', 'Criar Centro de Custo');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Centros de Custo'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="centros-custo-create">

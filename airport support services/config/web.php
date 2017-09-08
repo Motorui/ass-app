@@ -9,6 +9,13 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
+        'view' => [
+            'theme' => [
+                'pathMap' => [
+                    '@mdm/admin/views/user' => '@app/views/admin/user'
+                ],
+            ],
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '95018e50c3e75b3eda6a1f714ba2b2bc',
@@ -74,7 +81,26 @@ $config = [
     ],
     'modules' => [
         'admin' => [
-            'class' => 'mdm\admin\Module', 
+            'class' => 'mdm\admin\Module',
+            'controllerMap' => [
+                //  'assignment' => [
+                //     'class' => 'mdm\admin\controllers\AssignmentController',
+                //     /*'userClassName' => 'app\models\User',*/
+                //     'idField' => 'user_id',
+                //     'usernameField' => 'username',
+                //     'fullnameField' => 'user.displayname',
+                //     'extraColumns' => [
+                //         [
+                //             'attribute' => 'displayname',
+                //             'label' => 'Full Name',
+                //             'value' => function($model, $key, $index, $column) {
+                //                 return $model->user->displayname;
+                //             },
+                //         ],
+                //     ],
+                //     /*'searchClass' => 'app\models\UserSearch' */
+                // ],
+            ],
         ],
        'dynagrid'=> [
             'class'=>'\kartik\dynagrid\Module',

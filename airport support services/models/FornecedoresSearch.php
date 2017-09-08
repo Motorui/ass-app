@@ -18,8 +18,8 @@ class FornecedoresSearch extends Fornecedores
     public function rules()
     {
         return [
-            [['id_fornecedor'], 'integer'],
-            [['nome_fornecedor'], 'safe'],
+            [['id_fornecedor', 'contribuinte_fornecedor', 'user_id'], 'integer'],
+            [['nome_fornecedor', 'morada_fornecedor', 'status_fornecedor', 'data_criacao_fornecedor', 'data_alteracao_fornecedor'], 'safe'],
         ];
     }
 
@@ -60,9 +60,15 @@ class FornecedoresSearch extends Fornecedores
         // grid filtering conditions
         $query->andFilterWhere([
             'id_fornecedor' => $this->id_fornecedor,
+            'contribuinte_fornecedor' => $this->contribuinte_fornecedor,
+            'data_criacao_fornecedor' => $this->data_criacao_fornecedor,
+            'data_alteracao_fornecedor' => $this->data_alteracao_fornecedor,
+            'user_id' => $this->user_id,
         ]);
 
-        $query->andFilterWhere(['like', 'nome_fornecedor', $this->nome_fornecedor]);
+        $query->andFilterWhere(['like', 'nome_fornecedor', $this->nome_fornecedor])
+            ->andFilterWhere(['like', 'morada_fornecedor', $this->morada_fornecedor])
+            ->andFilterWhere(['like', 'status_fornecedor', $this->status_fornecedor]);
 
         return $dataProvider;
     }

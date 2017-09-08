@@ -2,7 +2,11 @@
 
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
-use yii\widgets\ActiveForm;
+
+use kartik\widgets\ActiveForm;
+use kartik\builder\Form;
+use kartik\widgets\Typeahead;
+
 use app\models\Contratos;
 use app\models\CargaHoraria;
 use app\models\CentrosCusto;
@@ -14,49 +18,142 @@ use app\models\CentrosCusto;
 
 <div class="colaboradores-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php
 
-    <?= $form->field($model, 'id_colaborador')->textInput() ?>
+    $id_ccusto = Yii::$app->getRequest()->getQueryParam('id_ccusto');
 
-    <?= $form->field($model, 'nome_colaborador')->textInput(['maxlength' => true]) ?>
+    if (!$id_ccusto) {
+        $input_id_ccusto = ['type'=>Form::INPUT_DROPDOWN_LIST, 
+                        'items'=>ArrayHelper::map(CentrosCusto::find()->select(
+                        ['id_ccusto', 'num_ccusto', 'nome_ccusto']
+                        )->all(), 'id_ccusto', 'displayName'),];
+    }else{
+        $input_id_ccusto = ['type'=>Form::INPUT_DROPDOWN_LIST,
+                        'items'=>ArrayHelper::map(CentrosCusto::find()->select(
+                        ['id_ccusto', 'num_ccusto', 'nome_ccusto']
+                        )->where(['id_ccusto'=>$id_ccusto])->all(), 'id_ccusto', 'displayName'),];
+    };
 
-    <?= $form->field($model, 'email_colaborador')->textInput(['maxlength' => true]) ?>
+    $form = ActiveForm::begin(['type'=>ActiveForm::TYPE_VERTICAL, 'id'=>'colaboradoresform']);
 
-    <?= $form->field($model, 'identificao_colaborador')->textInput(['maxlength' => true]) ?>
+    echo Form::widget([
+        'model'=>$model,
+        'form'=>$form,
+        'columns'=>2,
+        'attributes'=>[
+            'nome_colaborador'=>[
+                'type'=>Form::INPUT_TEXT,
+            ],        
+            'email_colaborador'=>[
+                'type'=>Form::INPUT_TEXT,
+            ],  
+        ]
+    ]);
 
-    <?= $form->field($model, 'identificao_validade')->textInput() ?>
+    echo Form::widget([
+        'model'=>$model,
+        'form'=>$form,
+        'columns'=>3,
+        'attributes'=>[
+            'identificao_colaborador'=>[
+                'type'=>Form::INPUT_TEXT,
+            ], 
+            'identificao_validade'=>[
+                'type'=>Form::INPUT_WIDGET, 
+                'widgetClass'=>'\kartik\widgets\DatePicker',
+                'options' => [
+                    'pluginOptions' => [
+                        'autoclose'=>true,
+                        'format' => 'yyyy-mm-dd'
+                    ],
+                ],
+            ],
+            'status_colaborador'=>[
+                'type'=>Form::INPUT_DROPDOWN_LIST, 
+                'items'=>[ 'activo' => 'Activo', 'inactivo' => 'Inactivo', ],
+            ],            
+        ]
+    ]);
 
-    <?= $form->field($model, 'status_colaborador')->dropDownList([ 'activo' => 'Activo', 'inactivo' => 'Inactivo', ], ['prompt' => '']) ?>
+    echo Form::widget([
+        'model'=>$model,
+        'form'=>$form,
+        'columns'=>3,
+        'attributes'=>[
+            'num_pw'=>[
+                'type'=>Form::INPUT_TEXT,
+            ],
+            'num_cartao'=>[
+                'type'=>Form::INPUT_TEXT,
+            ],
+            'validade_cartao'=>[
+                'type'=>Form::INPUT_WIDGET, 
+                'widgetClass'=>'\kartik\widgets\DatePicker',
+                'options' => [
+                    'pluginOptions' => [
+                        'autoclose'=>true,
+                        'format' => 'yyyy-mm-dd'
+                    ],
+                ],
+            ],
+        ]
+    ]);    
 
-    <?= $form->field($model, 'num_pw')->textInput() ?>
+    echo Form::widget([
+        'model'=>$model,
+        'form'=>$form,
+        'columns'=>3,
+        'attributes'=>[
+            'id_contrato'=>[
+                'type'=>Form::INPUT_DROPDOWN_LIST, 
+                'items'=>ArrayHelper::map(Contratos::find()->select(
+                ['id_contrato', 'tipo_contrato']
+                )->all(), 'id_contrato', 'tipo_contrato'),
+            ],
+            'inicio_contrato'=>[
+                'type'=>Form::INPUT_WIDGET, 
+                'widgetClass'=>'\kartik\widgets\DatePicker',
+                'options' => [
+                    'pluginOptions' => [
+                        'autoclose'=>true,
+                        'format' => 'yyyy-mm-dd'
+                    ],
+                ],
+            ],
+            'fim_contrato'=>[
+                'type'=>Form::INPUT_WIDGET, 
+                'widgetClass'=>'\kartik\widgets\DatePicker',
+                'options' => [
+                    'pluginOptions' => [
+                        'autoclose'=>true,
+                        'format' => 'yyyy-mm-dd'
+                    ],
+                ],
+            ],
+        ]
+    ]);
 
-    <?= $form->field($model, 'num_cartao')->textInput() ?>
+    echo Form::widget([
+        'model'=>$model,
+        'form'=>$form,
+        'columns'=>3,
+        'attributes'=>[
+            'id_carga_horaria'=>[
+                'type'=>Form::INPUT_DROPDOWN_LIST, 
+                'items'=>ArrayHelper::map(CargaHoraria::find()->select(
+                ['id_carga_horaria', 'desc_carga_horaria']
+                )->all(), 'id_carga_horaria', 'desc_carga_horaria'),
+            ],
+            'id_ccusto'=>$input_id_ccusto, 
+            'id_avenca'=>[
 
-    <?= $form->field($model, 'validade_cartao')->textInput() ?>
-
-    <?= $form->field($model, 'id_contrato')->dropDownList(ArrayHelper::map(Contratos::find()->select(
-            ['id_contrato', 'tipo_contrato']
-        )->all(), 'id_contrato', 'tipo_contrato'),
-        ['class' => 'form-control inline-block']) ?>
-
-    <?= $form->field($model, 'inicio_contrato')->textInput() ?>
-
-    <?= $form->field($model, 'fim_contrato')->textInput() ?>
-
-    <?= $form->field($model, 'id_carga_horaria')->dropDownList(ArrayHelper::map(CargaHoraria::find()->select(
-            ['id_carga_horaria', 'desc_carga_horaria']
-        )->all(), 'id_carga_horaria', 'desc_carga_horaria'),
-        ['class' => 'form-control inline-block']) ?>
-
-    <?= $form->field($model, 'id_ccusto')->dropDownList(ArrayHelper::map(CentrosCusto::find()->select(
-            ['id_ccusto', 'num_ccusto', 'nome_ccusto']
-        )->all(), 'id_ccusto', 'displayName'),
-        ['class' => 'form-control inline-block']) ?>
-
-    <?= $form->field($model, 'id_avenca')->textInput() ?>
+            ],
+        ]
+    ]);
+    ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Criar') : Yii::t('app', 'Atualizar'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

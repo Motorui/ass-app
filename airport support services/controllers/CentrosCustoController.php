@@ -8,6 +8,7 @@ use app\models\CentrosCustoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\db\Expression;
 
 /**
  * CentrosCustoController implements the CRUD actions for CentrosCusto model.
@@ -65,7 +66,12 @@ class CentrosCustoController extends Controller
     {
         $model = new CentrosCusto();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+
+            $model->user_id = Yii::$app->user->id;
+            $model->created_at = new Expression('NOW()');
+            $model->modified_at = new Expression('NOW()');
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id_ccusto]);
         } else {
             return $this->render('create', [
@@ -84,7 +90,12 @@ class CentrosCustoController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+
+            $model->user_id = Yii::$app->user->id;
+
+            $model->modified_at = new Expression('NOW()');
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id_ccusto]);
         } else {
             return $this->render('update', [

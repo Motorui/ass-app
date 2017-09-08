@@ -12,15 +12,60 @@ use app\models\Fornecedores;
 use kartik\grid\GridView;
 use kartik\export\ExportMenu;
 use kartik\daterange\DateRangePicker;
+use kartik\widgets\Growl;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\FaturasSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
+    if (!$id_ccusto) {
+        $input_id_ccusto = [
+            'attribute' => 'id_ccusto',
+            'value' => 'idCcusto.nome_ccusto',
+            'filter'=>ArrayHelper::map(CentrosCusto::find()->asArray()->all(), 'id_ccusto', 'nome_ccusto'),
+            'format'=>'text',
+        ];
+        $content = (
+            Html::a('<i class="glyphicon glyphicon-plus"></i>', 
+                ['faturas/create'],
+                ['class' => 'btn btn-success'])
+            .' '.
+            Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''], [
+                'class' => 'btn btn-default', 
+                'title' => Yii::t('kvgrid', 'Limpar')
+            ])
+        );
+
+        $nome_ccusto = 'Total';
+    }else{
+        $input_id_ccusto = [
+            'attribute' => 'id_ccusto',
+            'value' => 'idCcusto.nome_ccusto',
+            'filter'=> false,
+            'format'=>'text',
+            'visible'=>false,
+        ];
+        $content = (
+            Html::a('<i class="glyphicon glyphicon-plus"></i>', 
+                ['faturas/create', 'id_ccusto' => $id_ccusto],
+                ['class' => 'btn btn-success'])
+            .' '.
+            Html::a('<i class="glyphicon glyphicon-repeat"></i>',
+                ['faturas/index', 'id_ccusto' => $id_ccusto],
+                ['class' => 'btn btn-default', 
+                'title' => Yii::t('kvgrid', 'Limpar')
+            ])
+        );
+        $ccusto = CentrosCusto::findOne(['id_ccusto' => $id_ccusto]);
+        $nome_ccusto = $ccusto->nome_ccusto;
+
+    }; 
+
 $this->title = Yii::t('app', 'Faturas');
 $this->params['breadcrumbs'][] = $this->title;
 
 $valor = 0;
+
 if (!empty($dataProvider->getModels())) {
  foreach ($dataProvider->getModels() as $key => $val) {
      $valor -= $val->valor_fatura;
@@ -28,12 +73,7 @@ if (!empty($dataProvider->getModels())) {
 }
 
 $gridColumns  = [
-    [
-        'attribute' => 'id_ccusto',
-        'value' => 'idCcusto.nome_ccusto',
-        'filter'=>ArrayHelper::map(CentrosCusto::find()->asArray()->all(), 'id_ccusto', 'nome_ccusto'),
-        'format'=>'text',
-    ],
+        $input_id_ccusto,
     [
         'attribute' => 'tipo_fatura',
         'filter'=>array("Fatura"=>"Fatura","Nota de Crédito"=>"Nota de Crédito"),
@@ -160,18 +200,6 @@ $exportMenu = ExportMenu::widget([
 ?>
 
 <div class="faturas-index">
-
-    <?php
-        Modal::begin([
-            'header' => '<h4>Adicionar Faturas</h4>',
-            'id' => 'modal',
-            'size' => 'modal-md',
-            ]);
-
-        echo "<div id='modalContent'></div>";
-
-        Modal::end();
-    ?>
   
     <?= GridView::widget([
         'dataProvider'=> $dataProvider,
@@ -188,18 +216,9 @@ $exportMenu = ExportMenu::widget([
         ],
         'resizableColumns'=>true,
         'resizeStorageKey'=>Yii::$app->user->id . '-' . date("m"),
-    'toolbar' => [
-        [
-            'content'=>
-                Html::button('<i class="glyphicon glyphicon-plus"></i>', 
-                    ['value' => Url::to('faturas/createmodal'),
-                    'class' => 'btn btn-success showModalButton', 'id'=>'showModalButton',
-                ])
-                .' '.
-                Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''], [
-                    'class' => 'btn btn-default', 
-                    'title' => Yii::t('kvgrid', 'Limpar')
-                ]),
+        'toolbar' => [
+            [
+            'content'=> $content,
         ],
         $exportMenu,
         '{toggleData}'
@@ -219,9 +238,11 @@ $exportMenu = ExportMenu::widget([
             ],
         ],
         'panel' => [
-            'heading'=>'<h3 class="panel-title"><i class="glyphicon glyphicon-list-alt"></i> '.Html::encode($this->title).'</h3>',
+            'heading'=>'<h3 class="panel-title"><i class="glyphicon glyphicon-list-alt"></i> Faturas - '.
+            $nome_ccusto
+            .'</h3>',
             'type'=>'success',
-            'footer'=>false
+            'footer'=>true
         ],
         'rowOptions'=>function($model){
             if($model->valor_fatura < 0 ){
@@ -230,5 +251,26 @@ $exportMenu = ExportMenu::widget([
         },     
     ]); 
 ?>
+<?php
 
+    if (Yii::$app->session->hasFlash('warning')):
+        echo Growl::widget([
+
+            'type' => Growl::TYPE_WARNING,
+            'title' => 'Apagado!',
+            'icon' => 'glyphicon glyphicon-ok-sign',
+            'body' => Yii::$app->session->getFlash('warning'),
+            'showSeparator' => true,
+            'delay' => 0,
+            'pluginOptions' => [
+                'showProgressbar' => true,
+                'placement' => [
+                    'from' => 'top',
+                    'align' => 'center',
+                    ]
+                ]
+        ]);
+
+    endif;
+?>
 </div>
