@@ -1,10 +1,15 @@
 <?php
 
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
+
 use app\models\CentrosCusto;
 use app\models\Fornecedores;
+
+use kartik\widgets\ActiveForm;
+use kartik\builder\Form;
+use kartik\widgets\Typeahead;
+
 use dosamigos\datepicker\DatePicker;
 
 /* @var $this yii\web\View */
@@ -14,43 +19,75 @@ use dosamigos\datepicker\DatePicker;
 
 <div class="faturas-form">
 
-    <?php $form = ActiveForm::begin(['layout' => 'horizontal']) ?>
+<?php
+    $form = ActiveForm::begin(['type'=>ActiveForm::TYPE_VERTICAL, 'id'=>'faturasform']);
 
-    <?= $form->field($model, 'id_ccusto')->dropDownList(ArrayHelper::map(CentrosCusto::find()->select(
-            ['id_ccusto', 'num_ccusto', 'nome_ccusto']
-        )->all(), 'id_ccusto', 'displayName'),
-        ['class' => 'form-control inline-block']) ?>
+    echo Form::widget([
+        'model'=>$model,
+        'form'=>$form,
+        'columns'=>2,
+        'attributes'=>[
+            'id_ccusto'=>[
+                'type'=>Form::INPUT_DROPDOWN_LIST, 
+                'items'=>ArrayHelper::map(CentrosCusto::find()->select(
+                ['id_ccusto', 'num_ccusto', 'nome_ccusto']
+                )->all(), 'id_ccusto', 'displayName'),
 
-    <?= $form->field($model, 'tipo_fatura')->dropDownList([ 'Fatura' => 'Fatura', 'Nota de Crédito' => 'Nota de Crédito', ], 
-        ['prompt' => '']) ?>
+            ],        
+            'id_fornecedor'=>[
+                'type'=>Form::INPUT_DROPDOWN_LIST, 
+                'items'=>ArrayHelper::map(Fornecedores::find()->select(
+                ['id_fornecedor', 'nome_fornecedor']
+                )->all(), 'id_fornecedor', 'nome_fornecedor'),
 
-    <?= $form->field($model, 'data_fatura')->widget(
-    DatePicker::className(), [
-        // inline too, not bad
-        'inline' => false, 
-        // modify template for custom rendering
-        //'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
-        'clientOptions' => [
-            'autoclose' => true,
-            'format' => 'yyyy-m-dd'
+            ],
         ]
-    ]);?>    
+    ]);
 
-    <?= $form->field($model, 'id_fornecedor')->dropDownList(ArrayHelper::map(Fornecedores::find()->select(
-            ['id_fornecedor', 'nome_fornecedor']
-        )->all(), 'id_fornecedor', 'nome_fornecedor'),
-        ['class' => 'form-control inline-block']) ?>    
+    echo Form::widget([
+        'model'=>$model,
+        'form'=>$form,
+        'columns'=>2,
+        'attributes'=>[
+            'tipo_fatura'=>[
+                'type'=>Form::INPUT_DROPDOWN_LIST, 
+                'items'=>[ 'Fatura' => 'Fatura', 'Nota de Crédito' => 'Nota de Crédito', ],
+            ],
+            'data_fatura'=>[
+                'type'=>Form::INPUT_WIDGET, 
+                'widgetClass'=>'\kartik\widgets\DatePicker',
+                'options' => [
+                    'pluginOptions' => [
+                        'autoclose'=>true,
+                        'format' => 'yyyy-mm-dd'
+                    ],
+                ],
+            ],
+        ]
+    ]);
 
-    <?= $form->field($model, 'num_fatura')->textInput(['maxlength' => true]) ?>
+    echo Form::widget([
+        'model'=>$model,
+        'form'=>$form,
+        'columns'=>3,
+        'attributes'=>[
+            'num_fatura'=>[
+                'type'=>Form::INPUT_TEXT,
+            ],
+            'valor_fatura'=>[
+                'type'=>Form::INPUT_TEXT, 
+            ],
+            'actions'=>[
+            'type'=>Form::INPUT_RAW, 
+            'value'=>'<div style="text-align: left; margin-top: 20px">' . 
+                Html::resetButton('Limpar', ['class'=>'btn btn-default']) . ' ' .
+                Html::submitButton($model->isNewRecord ? Yii::t('app', 'Gravar') : Yii::t('app', 'Atualizar'), ['class' => $model->isNewRecord ? 'btn btn-primary' : 'btn btn-primary']) . 
+                '</div>'
+            ],
+        ]
+    ]);
 
-    <?= $form->field($model, 'valor_fatura')->textInput(['maxlength' => true]) ?>
-
-    <p><div class="form-group">
-        
-            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Gravar') : Yii::t('app', 'Atualizar'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        
-    </div></p>
-
-    <?php ActiveForm::end(); ?>
+    ActiveForm::end();
+?>
 
 </div>

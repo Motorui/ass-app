@@ -6,32 +6,33 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Formacoes */
 
-$this->title = $model->nome_formacao;
-$this->params['breadcrumbs'][] = ['label' => 'Formacoes', 'url' => ['index']];
+$this->title = $model->id_formacao;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Formacoes'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="formacoes-view">
 
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <p>
+        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id_formacao], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id_formacao], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                'method' => 'post',
+            ],
+        ]) ?>
+    </p>
+
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            //'id_formacao',
+            'id_formacao',
             'nome_formacao',
             'sigla_formacao',
             'validade_formacao',
         ],
     ]) ?>
-
-    <p>
-        <?= Html::a('Atualizar', ['update', 'id' => $model->id_formacao], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Apagar', ['delete', 'id' => $model->id_formacao], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Tem a certeza que deseja apagar a Formação: "'.$model->nome_formacao.'" ?',
-                'method' => 'post',
-            ],
-        ]) ?>
-        <?= Html::a('Criar Nova', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 
 </div>

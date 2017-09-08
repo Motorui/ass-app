@@ -67,9 +67,31 @@ class FaturasController extends Controller
         $model->tipo_fatura = 'Fatura';
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_fatura]);
+            Yii::$app->session->setFlash('success', "Your message to display");
+            return $this->render('create', [
+                'model' => $model,
+            ]);
         } else {
             return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    /**
+     * Creates a new Faturas model in modal version.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreatemodal()
+    {
+        $model = new Faturas();
+        $model->tipo_fatura = 'Fatura';
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id_fatura]);
+        } else {
+            return $this->renderAjax('createmodal', [
                 'model' => $model,
             ]);
         }

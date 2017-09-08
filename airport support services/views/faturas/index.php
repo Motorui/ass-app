@@ -2,12 +2,17 @@
 
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
-use kartik\grid\GridView;
-use kartik\export\ExportMenu;
+use yii\helpers\Url;
 use yii\widgets\Pjax;
+use yii\bootstrap\Modal;
+
 use app\models\CentrosCusto;
 use app\models\Fornecedores;
+
+use kartik\grid\GridView;
+use kartik\export\ExportMenu;
 use kartik\daterange\DateRangePicker;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\FaturasSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -153,12 +158,21 @@ $exportMenu = ExportMenu::widget([
 
 ]);
 ?>
+
 <div class="faturas-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php  //echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php
+        Modal::begin([
+            'header' => '<h4>Adicionar Faturas</h4>',
+            'id' => 'modal',
+            'size' => 'modal-md',
+            ]);
 
-   
+        echo "<div id='modalContent'></div>";
+
+        Modal::end();
+    ?>
+  
     <?= GridView::widget([
         'dataProvider'=> $dataProvider,
         'filterModel' => $searchModel,
@@ -177,11 +191,11 @@ $exportMenu = ExportMenu::widget([
     'toolbar' => [
         [
             'content'=>
-                Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'], [
-                    'type'=>'button',
-                    'title'=>Yii::t('kvgrid', 'Inserir Faturas'),
-                    'class' => 'btn btn-success'
-                ]) . ' '.
+                Html::button('<i class="glyphicon glyphicon-plus"></i>', 
+                    ['value' => Url::to('faturas/createmodal'),
+                    'class' => 'btn btn-success showModalButton', 'id'=>'showModalButton',
+                ])
+                .' '.
                 Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''], [
                     'class' => 'btn btn-default', 
                     'title' => Yii::t('kvgrid', 'Limpar')
@@ -214,6 +228,7 @@ $exportMenu = ExportMenu::widget([
                 return ['class' => 'success'];
             }
         },     
-    ]); ?>
+    ]); 
+?>
 
 </div>

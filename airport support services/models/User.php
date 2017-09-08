@@ -10,6 +10,7 @@ use yii\web\IdentityInterface;
  *
  * @property string $id
  * @property string $username
+ * @property string $displayname 
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $email
@@ -78,7 +79,18 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
     }
-    
+
+    /**
+     * Finds user by displayname
+     *
+     * @param string $displayname
+     * @return static|null
+     */
+    public static function findByDisplayname($displayname)
+    {
+        return static::findOne(['displayname' => $displayname, 'status' => self::STATUS_ACTIVE]);
+    }
+
     /**
      * Finds user by password reset token
      *

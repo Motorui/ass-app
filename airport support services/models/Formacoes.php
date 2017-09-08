@@ -35,7 +35,6 @@ class Formacoes extends \yii\db\ActiveRecord
             [['nome_formacao'], 'string', 'max' => 100],
             [['sigla_formacao'], 'string', 'max' => 10],
             [['nome_formacao'], 'unique'],
-            [['sigla_formacao'], 'unique'],
         ];
     }
 
@@ -45,10 +44,10 @@ class Formacoes extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_formacao' => 'Id Formacao',
-            'nome_formacao' => 'Nome',
-            'sigla_formacao' => 'Sigla',
-            'validade_formacao' => 'Validade (em anos)',
+            'id_formacao' => Yii::t('app', 'Id Formacao'),
+            'nome_formacao' => Yii::t('app', 'Nome Formacao'),
+            'sigla_formacao' => Yii::t('app', 'Sigla Formacao'),
+            'validade_formacao' => Yii::t('app', 'Validade Formacao'),
         ];
     }
 

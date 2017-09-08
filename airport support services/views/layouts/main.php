@@ -32,12 +32,17 @@ AppAsset::register($this);
             [
                 'label' => 'Trabalho',
                 'items' => [
-                     ['label' => 'Colaboradores', 'url' => ['/colaboradores']],
-                     ['label' => 'Faturas', 'url' => ['/faturas']],
-                     '<li class="divider"></li>',
-                     '<li class="dropdown-header">Outros</li>',
-                     ['label' => 'Centros de Custo', 'url' => ['/centros-custo']],
-                     ['label' => 'Fornecedores', 'url' => ['/fornecedores']],
+                    ['label' => 'Colaboradores', 'url' => ['/colaboradores']],
+                    '<li class="divider"></li>',
+                    '<li class="dropdown-header">Faturas</li>',
+                    ['label' => 'Listagem', 'url' => ['/faturas']],
+                    ['label' => 'Inserir', 'url' => ['/faturas/create']],
+                    ['label' => 'Centros de Custo', 'url' => ['/centros-custo']],
+                    ['label' => 'Fornecedores', 'url' => ['/fornecedores']],
+                    '<li class="divider"></li>',
+                    '<li class="dropdown-header">Outros</li>',
+                    ['label' => 'Centros de Custo', 'url' => ['/centros-custo']],
+                    ['label' => 'Fornecedores', 'url' => ['/fornecedores']],
                 ],
             ],
             ['label' => 'About', 'url' => ['/site/about']],
@@ -49,7 +54,7 @@ AppAsset::register($this);
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    'Logout (' . Yii::$app->user->identity->displayname . ')',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()
@@ -97,3 +102,15 @@ AppAsset::register($this);
 </body>
 </html>
 <?php $this->endPage() ?>
+<?php
+yii\bootstrap\Modal::begin([
+    'headerOptions' => ['id' => 'modalHeader'],
+    'id' => 'modal',
+    'size' => 'modal-lg',
+    //keeps from closing modal with esc key or by clicking out of the modal.
+    // user must click cancel or X to close
+    'clientOptions' => ['backdrop' => 'static', 'keyboard' => FALSE]
+]);
+echo "<div id='modalContent'></div>";
+yii\bootstrap\Modal::end();
+?>
