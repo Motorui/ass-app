@@ -10,7 +10,7 @@ use yii\bootstrap\ActiveForm;
 
 <div class="centros-custo-form">
 
-    <?php $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
+    <?php $form = ActiveForm::begin(['layout' => 'horizontal', 'id'=> $model->formName()]); ?>
 
     <?= $form->field($model, 'num_ccusto')->textInput() ?>
 

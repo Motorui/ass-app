@@ -3,12 +3,14 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\MultiplosContactos;
 use app\models\Colaboradores;
-use app\models\Contactos;
 use app\models\ColaboradoresSearch;
+use app\models\Contactos;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 
 /**
  * ColaboradoresController implements the CRUD actions for Colaboradores model.
@@ -65,20 +67,42 @@ class ColaboradoresController extends Controller
     public function actionCreate()
     {
         $model = new Colaboradores();
-        $contacto = new Contactos();
+        $modelsContactos = [new Contactos];
 
-        if ( $model->load(Yii::$app->request->post()) && $contacto->load(Yii::$app->request->post()) ) 
+        if ( $model->load(Yii::$app->request->post()) && $model->save() ) 
         {
-            $model->save();
+            $modelsContactos = MultiplosContactos::createMultiple(Contactos::classname());
+            MultiplosContactos::loadMultiple($modelsContactos, Yii::$app->request->post());
 
-            $contacto->id_colaborador = $model->id_colaborador;
-            $contacto->save();
+            // validate all models
+            $valid = $model->validate();
+            $valid = MultiplosContactos::validateMultiple($modelsContactos) && $valid;
+            
+            if ($valid) {
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    if ($flag = $model->save(false)) {
+                        foreach ($modelsContactos as $modelContactos) {
+                            $modelContactos->id_colaborador = $model->id_colaborador;
+                            if (! ($flag = $modelContactos->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                    }
+                    if ($flag) {
+                        $transaction->commit();
+                        return $this->redirect(['view', 'id' => $model->id_colaborador]);
+                    }
+                } catch (Exception $e) {
+                    $transaction->rollBack();
+                }
+            }
 
-            return $this->redirect(['view', 'id' => $model->id_colaborador]);
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'contacto' => $contacto,
+                'modelsContactos' => (empty($modelsContactos)) ? [new Contactos] : $modelsContactos
             ]);
         }
     }
@@ -92,14 +116,46 @@ class ColaboradoresController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $contacto = $this->findContactos($model->id_colaborador);
+        $modelsContactos = $model->contactos;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_colaborador]);
+
+            $oldIDs = ArrayHelper::map($modelsContactos, 'id_contacto', 'id_contacto');
+            $modelsContactos = MultiplosContactos::createMultiple(Contactos::classname(), $modelsContactos);
+            MultiplosContactos::loadMultiple($modelsContactos, Yii::$app->request->post());
+            $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelsContactos, 'id_contacto', 'id_contacto')));
+
+            // validate all models
+            $valid = $model->validate();
+            $valid = MultiplosContactos::validateMultiple($modelsContactos) && $valid;
+
+            if ($valid) {
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    if ($flag = $model->save(false)) {
+                        if (! empty($deletedIDs)) {
+                            Contactos::deleteAll(['id_contacto' => $deletedIDs]);
+                        }
+                        foreach ($modelsContactos as $modelsContacto) {
+                            $modelsContacto->id_colaborador = $model->id_colaborador;
+                            if (! ($flag = $modelsContacto->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                    }
+                    if ($flag) {
+                        $transaction->commit();
+                        return $this->redirect(['view', 'id' => $model->id_colaborador]);
+                    }
+                } catch (Exception $e) {
+                    $transaction->rollBack();
+                }
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'contacto' => $contacto,
+                'modelsContactos' => (empty($modelsContactos)) ? [new Contactos] : $modelsContactos
             ]);
         }
     }

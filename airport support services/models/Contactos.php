@@ -29,7 +29,7 @@ class Contactos extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_colaborador', 'contacto'], 'required'],
+            [['contacto'], 'required'],
             [['id_colaborador', 'contacto'], 'integer'],
             [['id_colaborador'], 'exist', 'skipOnError' => true, 'targetClass' => Colaboradores::className(), 'targetAttribute' => ['id_colaborador' => 'id_colaborador']],
         ];

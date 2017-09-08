@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\bootstrap\Modal;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CentrosCustoSearch */
@@ -29,7 +31,21 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 
     <p>
-        <?= Html::a('Criar Novo', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::button('Criar Novo', ['value'=>Url::to('index.php?r=centros-custo/create'), 'class' => 'btn btn-success', 'id'=>'modalButton']) ?>
     </p>
 
+    <?php
+
+        Modal::begin([
+            'header' => 'Criar Centro de Custo',
+            'id'     => 'modal',
+            'size'   => 'modal-lg',
+        ]);
+
+        echo "<div id='modalContent'></div>";
+
+        Modal::end();
+
+    ?>
+  
 </div>

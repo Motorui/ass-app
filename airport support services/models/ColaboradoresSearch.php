@@ -15,11 +15,13 @@ class ColaboradoresSearch extends Colaboradores
     /**
      * @inheritdoc
      */
+    public $procuraGlobal;
+
     public function rules()
     {
         return [
             [['id_colaborador'], 'integer'],
-            [['nome_colaborador', 'email_colaborador', 'identificao_colaborador', 'identificao_validade', 'status_colaborador'], 'safe'],
+            [['procuraGlobal', 'nome_colaborador', 'email_colaborador', 'identificao_colaborador', 'identificao_validade', 'status_colaborador'], 'safe'],
         ];
     }
 
@@ -57,16 +59,10 @@ class ColaboradoresSearch extends Colaboradores
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'id_colaborador' => $this->id_colaborador,
-            'identificao_validade' => $this->identificao_validade,
-        ]);
-
-        $query->andFilterWhere(['like', 'nome_colaborador', $this->nome_colaborador])
-            ->andFilterWhere(['like', 'email_colaborador', $this->email_colaborador])
-            ->andFilterWhere(['like', 'identificao_colaborador', $this->identificao_colaborador])
-            ->andFilterWhere(['like', 'status_colaborador', $this->status_colaborador]);
+        $query->orFilterWhere(['like', 'nome_colaborador', $this->procuraGlobal])
+            ->orFilterWhere(['like', 'email_colaborador', $this->procuraGlobal])
+            ->orFilterWhere(['like', 'identificao_colaborador', $this->procuraGlobal])
+            ->orFilterWhere(['like', 'status_colaborador', $this->procuraGlobal]);
 
         return $dataProvider;
     }

@@ -1,10 +1,10 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use dosamigos\datepicker\DatePicker;
 use yii\widgets\Pjax;
-
+use app\models\ContactosSearch;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ColaboradoresSearch */
@@ -15,22 +15,29 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="colaboradores-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a('Create Colaboradores', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?php Pjax::begin(); ?> 
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
         'columns' => [
-            //['class' => 'yii\grid\SerialColumn'],
+            [
+                'class' => 'kartik\grid\ExpandRowColumn',
+                'value' => function($model, $key, $index, $column){
+                    return GridView::ROW_COLLAPSED;
+                },
+                'detail' => function($model, $key, $index, $column){
+                    $searchModel = new ContactosSearch();
+                    $searchModel->id_colaborador = $model->id_colaborador;
+                    $dataProvider = $searchModel->searchContacto(Yii::$app->request->queryParams);
 
-            //'id_colaborador',
+                    return Yii::$app->controller->renderPartial('_contactos', [
+                        'searchModel' => $searchModel,
+                        'dataProvider' => $dataProvider,
+                    ]);
+                },
+            ],
             'nome_colaborador',
             'email_colaborador:email',
             'identificao_colaborador',
@@ -55,5 +62,9 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 
     <?php Pjax::end(); ?>
+
+    <p>
+        <?= Html::a('Criar Colaboradores', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
 
 </div>

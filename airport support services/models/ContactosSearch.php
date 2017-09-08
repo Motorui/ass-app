@@ -61,8 +61,33 @@ class ContactosSearch extends Contactos
 
         // grid filtering conditions
         $query->andFilterWhere(['like', 'id_contacto', $this->id_contacto])
+            ->andFilterWhere(['like', 'colaboradores.id_colaborador', $this->id_colaborador])
             ->andFilterWhere(['like', 'contacto', $this->contacto])
             ->andFilterWhere(['like', 'colaboradores.nome_colaborador', $this->id_colaborador]);
+
+        return $dataProvider;
+    }
+
+    public function searchContacto($params)
+    {
+        $query = Contactos::find();
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        $query->andFilterWhere([
+            'id_contacto' => $this->id_contacto,
+            'id_colaborador' => $this->id_colaborador,
+            'contacto' => $this->contacto,
+        ]);
+
+        // grid filtering conditions
+        $query->andFilterWhere(['like', 'id_colaborador', $this->id_colaborador]);
 
         return $dataProvider;
     }

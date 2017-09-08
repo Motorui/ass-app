@@ -30,6 +30,7 @@ class AppAsset extends AssetBundle
         //'gentelella-master/vendors/jquery/dist/jquery.min.js',
         'gentelella-master/vendors/bootstrap/dist/js/bootstrap.min.js',
         'gentelella-master/build/js/custom.min.js',
+        'js/modal.js',
 
     ];
     public $depends = [

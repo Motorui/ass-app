@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\ColaboradoresSearch */
@@ -9,29 +9,21 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="colaboradores-search">
+    <div class="col-md-5 col-sm-5 col-xs-12 form-group top_search pull-right">
 
-    <?php $form = ActiveForm::begin([
-        'action' => ['index'],
-        'method' => 'get',
-    ]); ?>
+        <?php $form = ActiveForm::begin([
+            'action' => ['index'],
+            'method' => 'get',
+        ]); ?>
 
-    <?= $form->field($model, 'id_colaborador') ?>
+        <?= $form->field($model, 'procuraGlobal', [
+            'template' => '<div class="input-group">{input}<span class="input-group-btn">' .
+            Html::submitButton('Procurar', ['class' => 'btn btn-default']) .
+            '</span></div>',
+        ])->textInput(['placeholder' => 'Procurar'])->textInput()->label('') ?>
 
-    <?= $form->field($model, 'nome_colaborador') ?>
-
-    <?= $form->field($model, 'email_colaborador') ?>
-
-    <?= $form->field($model, 'identificao_colaborador') ?>
-
-    <?= $form->field($model, 'identificao_validade') ?>
-
-    <?php // echo $form->field($model, 'status_colaborador') ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
     </div>
-
-    <?php ActiveForm::end(); ?>
-
 </div>
+        <?php ActiveForm::end(); ?>
+<div class="clearfix"></div>
+<p></p>
