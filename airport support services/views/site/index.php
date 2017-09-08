@@ -3,82 +3,95 @@ use yii\widgets\ListView;
 use yii\helpers\url;
 use yii\helpers\html;
 use yii\bootstrap\Collapse;
+use kartik\sidenav\SideNav;
+
 /* @var $this yii\web\View */
 
 $this->title = 'Airport Support Serviçes';
 ?>
 <div class="site-index">
 
-<!--     <div class="jumbotron">
-        <h1>Airport Support Serviçes.</h1>
-        <p class="lead">Bem-vindo!</p>
-    </div> -->
-
     <div class="body-content">
-        
-        <div class="row">
+            <div class="col-md-3">
         <?php
-            foreach ($dataProvider->models as $model) {
+if (!empty($ccusto)) {
 
-                $url = Url::toRoute(['centros-custo/view', 'id' => $model->id_ccusto]);
+            foreach ($ccusto as $model) {
 
-                $urlInsereFaturas = Html::a('Inserir Faturas', ['faturas/create', 'id_ccusto' => $model->id_ccusto], ['class' => '']);
+                $urlInsereFaturas = Url::toRoute(['faturas/create', 'id_ccusto' => $model->id_ccusto]);
 
-                $urlListagemFaturas = Html::a('Listagem Faturas', ['faturas/index', 'id_ccusto' => $model->id_ccusto], ['class' => '']);
+                $urlListagemFaturas = Url::toRoute(['faturas/index', 'id_ccusto' => $model->id_ccusto]);
 
-                $urlInsereColaboradores = Html::a('Inserir Colaboradores', ['colaboradores/create', 'id_ccusto' => $model->id_ccusto], ['class' => '']);
+                $urlInsereColaboradores = Url::toRoute(['colaboradores/create', 'id_ccusto' => $model->id_ccusto]);
 
-                $urlListagemColaboradores = Html::a('Listagem Colaboradores', ['colaboradores/index', 'id_ccusto' => $model->id_ccusto], ['class' => '']);
+                $urlListagemColaboradores = Url::toRoute(['colaboradores/index', 'id_ccusto' => $model->id_ccusto]);
 
-                $urlInsereFormacoes = Html::a('Listagem Formações', ['formacoes-colaborador/index', 'id_ccusto' => $model->id_ccusto], ['class' => '']);
+                $urlInsereFormacoes = Url::toRoute(['formacoes-colaborador/index', 'id_ccusto' => $model->id_ccusto]);
 
-                $urlListagemFormacoes = Html::a('Atribuir Formações', ['formacoes-colaborador/create', 'id_ccusto' => $model->id_ccusto], ['class' => '']);
+                $urlListagemFormacoes = Url::toRoute(['faturas/index', 'id_ccusto' => $model->id_ccusto]);
+                Html::a('Atribuir Formações', ['formacoes-colaborador/create', 'id_ccusto' => $model->id_ccusto], ['class' => '']);
 
-                echo "<div class='col-lg-4 list-group'>";
-                echo "<a href='#' class='list-group-item active'>";
-                echo "<h3 class='list-group-item-heading'>$model->nome_ccusto</h3>";
-                echo "</a>";
-
-                echo Collapse::widget([
-                    'items' => [
-                        // equivalent to the above
-                        [
-                            'label' => 'Faturas:',
-                            'content' => [
-                                $urlInsereFaturas,
-                                $urlListagemFaturas
+                $items[] = [
+                    'label' => $model->nome_ccusto, 'icon' => 'folder-open', 'items' => [
+                            ['label' => 'Faturas', 'icon'=>'euro', 'items' => [
+                                ['label' => 'Inserir', 'icon'=>'edit', 'url'=>$urlInsereFaturas],
+                                ['label' => 'Listagem', 'icon'=>'list-alt', 'url'=>$urlListagemFaturas],
+                                ],
                             ],
-                            'contentOptions' => ['class' => ''],
-                            'options' => ['class' => ''],
-                        ],
-                        // another group item
-                        [
-                            'label' => 'Colaboradores:',
-                            'content' => [
-                                $urlInsereColaboradores,
-                                $urlListagemColaboradores
+                            ['label' => 'Colaboradores', 'icon'=>'user', 'items' => [
+                                ['label' => 'Inserir', 'icon'=>'edit', 'url'=>$urlInsereColaboradores],
+                                ['label' => 'Listagem', 'icon'=>'list-alt', 'url'=>$urlListagemColaboradores],
+                                ],                            
                             ],
-                            'contentOptions' => ['class' => ''],
-                            'options' => [''],
-                        ],
-                        [
-                            'label' => 'Formações:',
-                            'content' => [
-                                $urlInsereFormacoes,
-                                $urlListagemFormacoes
-                            ],
-                            'contentOptions' => ['class' => ''],
-                            'options' => [''],
-                        ],
-                    ],
-
-                ]);
-
-                echo "</ul>";
-
-                echo '</div>';                
+                            ['label' => 'Formações', 'icon'=>'book', 'items' => [
+                                ['label' => 'Inserir', 'icon'=>'edit', 'url'=>$urlInsereFormacoes],
+                                ['label' => 'Listagem', 'icon'=>'list-alt', 'url'=>$urlListagemFormacoes],
+                                ],                            
+                            ]                             
+                        ]
+                ];
             }
+
+            echo SideNav::widget([
+                'type' => SideNav::TYPE_PRIMARY,
+                'heading' => 'Centros de Custo',
+                'items' => $items,
+    
+            ]);
+
+
         ?>
+            </div>
+            <div class="col-md-9">
+                <?php
+                    if ($colaboradores) {
+                        echo '<div class="bs-callout bs-callout-danger">';
+                            echo '<h4>Os seguintes colaboradores estão prestes a terminar o contrato</h4>';
+                            foreach ($colaboradores as $colaborador) {
+                                echo '<p>';
+                                echo Html::a($colaborador->nome_colaborador, ['colaboradores/view', 'id' => $colaborador->id_colaborador, 'id_ccusto' => $colaborador->id_ccusto], ['class' => 'profile-link']);
+                                echo '</p>';
+                            }
+                        echo '</div>';
+                        
+                    } else {
+                        echo '<div class="bs-callout bs-callout-success">';
+                            echo '<h4>Não existem colaboradores a terminar o contrato</h4>';
+                        echo '</div>';
+                    }
+                ?>
+            <pre>
+        <?php
+            echo $dataFimContracto;
+            echo '<p></p>';
+            print_r($colaboradores);
+}else{
+        ?>
+        </pre>
         </div>
-    </div>
+            <div class="jumbotron">
+                <h1>Contacte o administrador</h1> 
+                <p>Ainda não tem acesso a centros de custo, por favor contacte o administrador.</p> 
+          </div>
+<?php } ?>
 </div>

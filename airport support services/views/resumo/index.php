@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             $partidas_90m = (int)$Values['partidas_90m'];
 
             echo '<pre>';
-            //echo print_r(ArrayHelper::getValue($Values, 'total_total'));
+            echo print_r(ArrayHelper::getValue($Values, 'total_total'));
 
             echo '<p>';
             echo print_r($Values['total_total']);

@@ -55,7 +55,6 @@ class UserCcustoController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
-
     /**
      * Creates a new UserCcusto model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -65,8 +64,15 @@ class UserCcustoController extends Controller
     {
         $model = new UserCcusto();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_user_ccusto]);
+        if ($model->load(Yii::$app->request->post())) {
+
+            //$model->save()
+            $data = $_POST;
+
+            return $this->render('create', [
+                'test' => $data,
+                'model' => $model,
+            ]);
         } else {
             return $this->render('create', [
                 'model' => $model,

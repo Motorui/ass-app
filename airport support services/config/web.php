@@ -171,7 +171,7 @@ $config = [
     'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
-            'site/*',
+            'site/about',
         ],
     ],
     // set target language

@@ -12,6 +12,9 @@ use app\models\SignupForm;
 use app\models\PasswordResetRequestForm;
 use app\models\ResetPasswordForm;
 use app\models\CentrosCustoSearch;
+use app\models\CentrosCusto;
+use app\models\UserCcusto;
+use app\models\Colaboradores;
 
 class SiteController extends Controller
 {
@@ -64,12 +67,39 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new CentrosCustoSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $userid = Yii::$app->user->getId();
+
+        $uccusto = UserCcusto::find()
+        ->where(['id_user' => $userid])
+        ->all();
+    
+        foreach ($uccusto as $row) {
+            $idcc[] = $row['id_ccusto'];
+        }
+
+        if (empty($idcc)) {
+            $ccusto = array();
+            $colaboradores = array();
+            $dataFimContracto = array();
+        }else{
+
+            $idccusto = implode (", ", $idcc);
+            $ccusto = CentrosCusto::findAll($idcc);
+      
+            $dataFimContracto = date('Y-m-d', strtotime('+3 month'));
+
+            $colaboradores = Colaboradores::find()->where([
+                'id_ccusto' => $idcc,
+                'status_colaborador'=>'activo'])->andWhere([
+                '<=', 'fim_contrato', $dataFimContracto
+            ])->all();
+        
+        }
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'ccusto' => $ccusto,
+            'colaboradores' => $colaboradores,
+            'dataFimContracto' => $dataFimContracto,
         ]);
     }
 

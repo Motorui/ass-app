@@ -43,9 +43,9 @@ class UserCcusto extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_user_ccusto' => Yii::t('app', 'Id User Ccusto'),
-            'id_user' => Yii::t('app', 'Id User'),
-            'id_ccusto' => Yii::t('app', 'Id Ccusto'),
+            'id_user_ccusto' => Yii::t('app', 'Id'),
+            'id_user' => Yii::t('app', 'User'),
+            'id_ccusto' => Yii::t('app', 'Centro de custo'),
         ];
     }
 
@@ -64,4 +64,13 @@ class UserCcusto extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'id_user']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCcusto()
+    {
+        return $this->hasMany(CentrosCusto::className(), ['id_ccusto' => 'id_ccusto']);
+    }
+    
 }

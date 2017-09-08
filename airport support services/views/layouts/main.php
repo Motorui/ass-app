@@ -82,6 +82,7 @@ AppAsset::register($this);
                         ['label' => 'Regras', 'url' => ['/admin/rule']],
                         ['label' => 'Users', 'url' => ['/admin/user']],
                         ['label' => 'Criar Utilizador', 'url' => ['/admin/user/signup']],
+                        ['label' => 'Adicionar Centros de custo', 'url' => ['/user-ccusto']],
                     ],
                 ];
 
