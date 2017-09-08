@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\FormacoesSearch */
+/* @var $searchModel app\models\UserCcustoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Formações');
+$this->title = Yii::t('app', 'User Ccustos');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="formacoes-index">
+<div class="user-ccusto-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Formacoes'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create User Ccusto'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -24,10 +24,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_formacao',
-            'nome_formacao',
-            'sigla_formacao',
-            'validade_formacao',
+            'id_user_ccusto',
+            'id_user',
+            'id_ccusto',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

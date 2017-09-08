@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Colaboradores;
-use app\models\ColaboradoresSearch;
+use app\models\UserCcusto;
+use app\models\UserCcustoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ColaboradoresController implements the CRUD actions for Colaboradores model.
+ * UserCcustoController implements the CRUD actions for UserCcusto model.
  */
-class ColaboradoresController extends Controller
+class UserCcustoController extends Controller
 {
     /**
      * @inheritdoc
@@ -30,68 +30,43 @@ class ColaboradoresController extends Controller
     }
 
     /**
-     * Lists all Colaboradores models.
+     * Lists all UserCcusto models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ColaboradoresSearch();
-
-        $id_ccusto = Yii::$app->getRequest()->getQueryParam('id_ccusto');
-        
-        if (!$id_ccusto) {
-            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        }else{
-            $searchModel->id_ccusto = $id_ccusto;
-            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        };
+        $searchModel = new UserCcustoSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'id_ccusto' => $id_ccusto,
         ]);
     }
 
-    public function actionViewccusto($id)
-    {
-        $searchModel = new ColaboradoresSearch();
-        $searchModel->id_ccusto = $id;
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        //$dataProvider = $searchModel->searchByCcusto(Yii::$app->request->queryParams);
-
-        return $this->render('viewccusto', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
     /**
-     * Displays a single Colaboradores model.
+     * Displays a single UserCcusto model.
      * @param integer $id
      * @return mixed
      */
     public function actionView($id)
     {
-        $model = $this->findModel($id);
-        $modelsContactos = $model->contactos;
-
         return $this->render('view', [
-            'model' => $model,
-            'modelsContactos' => $modelsContactos,
+            'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new Colaboradores model.
+     * Creates a new UserCcusto model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Colaboradores();
+        $model = new UserCcusto();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_colaborador]);
+            return $this->redirect(['view', 'id' => $model->id_user_ccusto]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -100,7 +75,7 @@ class ColaboradoresController extends Controller
     }
 
     /**
-     * Updates an existing Colaboradores model.
+     * Updates an existing UserCcusto model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -110,7 +85,7 @@ class ColaboradoresController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_colaborador]);
+            return $this->redirect(['view', 'id' => $model->id_user_ccusto]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -119,7 +94,7 @@ class ColaboradoresController extends Controller
     }
 
     /**
-     * Deletes an existing Colaboradores model.
+     * Deletes an existing UserCcusto model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -132,19 +107,18 @@ class ColaboradoresController extends Controller
     }
 
     /**
-     * Finds the Colaboradores model based on its primary key value.
+     * Finds the UserCcusto model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Colaboradores the loaded model
+     * @return UserCcusto the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Colaboradores::findOne($id)) !== null) {
+        if (($model = UserCcusto::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-
 }

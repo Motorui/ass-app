@@ -46,11 +46,11 @@ class FormacoesColaborador extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_fc' => 'Id Fc',
-            'id_formacao' => 'Id Formacao',
-            'id_colaborador' => 'Id Colaborador',
-            'data_formacao' => 'Data Formacao',
-            'caducidade' => 'Caducidade',
+            'id_fc' => Yii::t('app', 'Id Fc'),
+            'id_formacao' => Yii::t('app', 'Id Formacao'),
+            'id_colaborador' => Yii::t('app', 'Id Colaborador'),
+            'data_formacao' => Yii::t('app', 'Data Formacao'),
+            'caducidade' => Yii::t('app', 'Caducidade'),
         ];
     }
 

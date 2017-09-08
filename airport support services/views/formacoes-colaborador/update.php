@@ -5,10 +5,12 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\FormacoesColaborador */
 
-$this->title = 'Update Formacoes Colaborador: ' . $model->id_fc;
-$this->params['breadcrumbs'][] = ['label' => 'Formacoes Colaboradors', 'url' => ['index']];
+$this->title = Yii::t('app', 'Update {modelClass}: ', [
+    'modelClass' => 'Formacoes Colaborador',
+]) . $model->id_fc;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Formacoes Colaboradors'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id_fc, 'url' => ['view', 'id' => $model->id_fc]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 <div class="formacoes-colaborador-update">
 

@@ -4,26 +4,22 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\FormacoesColaboradorSearch */
+/* @var $model app\models\UserCcustoSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="formacoes-colaborador-search">
+<div class="user-ccusto-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id_fc') ?>
+    <?= $form->field($model, 'id_user_ccusto') ?>
 
-    <?= $form->field($model, 'id_formacao') ?>
+    <?= $form->field($model, 'id_user') ?>
 
-    <?= $form->field($model, 'id_colaborador') ?>
-
-    <?= $form->field($model, 'data_formacao') ?>
-
-    <?= $form->field($model, 'caducidade') ?>
+    <?= $form->field($model, 'id_ccusto') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

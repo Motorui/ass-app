@@ -5,13 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\FormacoesColaborador;
-use app\models\Colaboradores;
+use app\models\UserCcusto;
 
 /**
- * FormacoesColaboradorSearch represents the model behind the search form about `app\models\FormacoesColaborador`.
+ * UserCcustoSearch represents the model behind the search form about `app\models\UserCcusto`.
  */
-class FormacoesColaboradorSearch extends FormacoesColaborador
+class UserCcustoSearch extends UserCcusto
 {
     /**
      * @inheritdoc
@@ -19,8 +18,7 @@ class FormacoesColaboradorSearch extends FormacoesColaborador
     public function rules()
     {
         return [
-            [['id_fc', 'id_formacao', 'id_colaborador'], 'integer'],
-            [['data_formacao', 'caducidade'], 'safe'],
+            [['id_user_ccusto', 'id_user', 'id_ccusto'], 'integer'],
         ];
     }
 
@@ -42,7 +40,7 @@ class FormacoesColaboradorSearch extends FormacoesColaborador
      */
     public function search($params)
     {
-        $query = FormacoesColaborador::find();
+        $query = UserCcusto::find();
 
         // add conditions that should always apply here
 
@@ -60,12 +58,9 @@ class FormacoesColaboradorSearch extends FormacoesColaborador
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id_fc' => $this->id_fc,
-            'id_formacao' => $this->id_formacao,
-            'id_colaborador' => $this->id_colaborador,
-            'data_formacao' => $this->data_formacao,
-            'caducidade' => $this->caducidade,
-            //'id_ccusto' => $this->id_ccusto,
+            'id_user_ccusto' => $this->id_user_ccusto,
+            'id_user' => $this->id_user,
+            'id_ccusto' => $this->id_ccusto,
         ]);
 
         return $dataProvider;

@@ -67,15 +67,19 @@ class FaturasSearch extends Faturas
 
         // add conditions that should always apply here
 
+        $pagination = Utility::getPagination($params);
+
         $dataProvider = new ActiveDataProvider([
+            'pagination' => $pagination,
             'query' => $query,
         ]);
+
 
         $this->load($params);
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
-            $query->where('0=1');
+            //$query->where('0=1');
             return $dataProvider;
         }
 
@@ -93,6 +97,9 @@ class FaturasSearch extends Faturas
 
         $query->andFilterWhere(['between', 'data_fatura', $this->dateStart, $this->dateEnd]);
 
-        return $dataProvider;
+        $dataProviderClone = clone $dataProvider;
+
+        return $dataProviderClone;
     }
+
 }

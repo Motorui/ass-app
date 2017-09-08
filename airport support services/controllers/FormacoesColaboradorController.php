@@ -5,8 +5,13 @@ namespace app\controllers;
 use Yii;
 use app\models\FormacoesColaborador;
 use app\models\FormacoesColaboradorSearch;
+use app\models\Formacoes;
+use app\models\Colaboradores;
+use app\models\ColaboradoresSearch;
+
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+
 use yii\filters\VerbFilter;
 
 /**
@@ -35,12 +40,27 @@ class FormacoesColaboradorController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new FormacoesColaboradorSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $searchFc = new FormacoesColaboradorSearch();
+
+        $searchC = new ColaboradoresSearch();
+
+        $id_ccusto = Yii::$app->getRequest()->getQueryParam('id_ccusto');
+        
+        if (!$id_ccusto) {
+            $dataC = $searchC->search(Yii::$app->request->queryParams);
+        }else{
+            $searchC->id_ccusto = $id_ccusto;
+            $dataC = $searchC->search(Yii::$app->request->queryParams);
+        };
+
+        $dataFc = $searchFc->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'searchFc' => $searchFc,
+            'dataFc' => $dataFc,
+            'searchC' => $searchC,
+            'dataC' => $dataC,
+            'id_ccusto' => $id_ccusto,
         ]);
     }
 
@@ -65,13 +85,39 @@ class FormacoesColaboradorController extends Controller
     {
         $model = new FormacoesColaborador();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_fc]);
+        // if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        //     return $this->redirect(['view', 'id' => $model->id_fc]);
+        // } else {
+        //     return $this->render('create', [
+        //         'model' => $model,
+        //     ]);
+        // }
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            $data_formacao = Yii::$app->request->post("FormacoesColaborador")["data_formacao"];
+            $id_formacao = Yii::$app->request->post("FormacoesColaborador")["id_formacao"];
+
+            $validade_formacao = Formacoes::find()->select(['validade_formacao'])
+                    ->where(['id_formacao'=>$id_formacao])->one();
+
+            $validade = $validade_formacao->validade_formacao;
+
+            $caducidade = date('Y-m-d', strtotime('+'.$validade. 'years', strtotime($data_formacao)));
+
+            $model->caducidade = $caducidade;
+
+            $model->save();
+
+            return $this->render('update', [
+                'model' => $model,
+            ]);
         } else {
             return $this->render('create', [
                 'model' => $model,
             ]);
         }
+        
     }
 
     /**
@@ -84,7 +130,22 @@ class FormacoesColaboradorController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+
+            $data_formacao = Yii::$app->request->post("FormacoesColaborador")["data_formacao"];
+            $id_formacao = Yii::$app->request->post("FormacoesColaborador")["id_formacao"];
+
+            $validade_formacao = Formacoes::find()->select(['validade_formacao'])
+                    ->where(['id_formacao'=>$id_formacao])->one();
+
+            $validade = $validade_formacao->validade_formacao;
+
+            $caducidade = date('Y-m-d', strtotime('+'.$validade. 'years', strtotime($data_formacao)));
+
+            $model->caducidade = $caducidade;
+
+            $model->save();
+            
             return $this->redirect(['view', 'id' => $model->id_fc]);
         } else {
             return $this->render('update', [

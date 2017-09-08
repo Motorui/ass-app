@@ -3,16 +3,17 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Colaboradores;
-use app\models\ColaboradoresSearch;
+use app\models\Resumo;
+use app\models\ResumoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ArrayDataProvider;
 
 /**
- * ColaboradoresController implements the CRUD actions for Colaboradores model.
+ * ResumoController implements the CRUD actions for Resumo model.
  */
-class ColaboradoresController extends Controller
+class ResumoController extends Controller
 {
     /**
      * @inheritdoc
@@ -29,69 +30,71 @@ class ColaboradoresController extends Controller
         ];
     }
 
+    public function actionTest()
+    {
+        $mes = date("Y-m-d", strtotime("first day of previous month"));
+
+        $sql = "SELECT `resumo_mes`, `total_total`,`total_chegadas`,`total_partidas`,`total_36h`,`chegadas_36h`,`partidas_36h`,`total_90m_36h`,`chegadas_90m_36h`,`partidas_90m_36h`,`total_90m`,`chegadas_90m`,`partidas_90m` FROM `resumo`";
+
+        $rawData = Yii::$app->db->createCommand ($sql)->queryAll();
+        $searchModel = new ResumoSearch();
+
+        $dataProvider = new ArrayDataProvider([
+            //'totaItemCount' => count($rawData),
+            'allModels' => $rawData,
+            'sort' => [
+                'attributes' => [array_keys($rawData[0])],
+            ],
+
+        ]);
+
+        return $this->render('test', [
+            'sql' => $sql,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+
+        ]);
+    }
+
     /**
-     * Lists all Colaboradores models.
+     * Lists all Resumo models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ColaboradoresSearch();
-
-        $id_ccusto = Yii::$app->getRequest()->getQueryParam('id_ccusto');
-        
-        if (!$id_ccusto) {
-            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        }else{
-            $searchModel->id_ccusto = $id_ccusto;
-            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        };
+        $searchModel = new ResumoSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'id_ccusto' => $id_ccusto,
+
         ]);
     }
 
-    public function actionViewccusto($id)
-    {
-        $searchModel = new ColaboradoresSearch();
-        $searchModel->id_ccusto = $id;
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        //$dataProvider = $searchModel->searchByCcusto(Yii::$app->request->queryParams);
-
-        return $this->render('viewccusto', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
     /**
-     * Displays a single Colaboradores model.
+     * Displays a single Resumo model.
      * @param integer $id
      * @return mixed
      */
     public function actionView($id)
     {
-        $model = $this->findModel($id);
-        $modelsContactos = $model->contactos;
-
         return $this->render('view', [
-            'model' => $model,
-            'modelsContactos' => $modelsContactos,
+            'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new Colaboradores model.
+     * Creates a new Resumo model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Colaboradores();
+        $model = new Resumo();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_colaborador]);
+            return $this->redirect(['view', 'id' => $model->resumo_id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -100,7 +103,7 @@ class ColaboradoresController extends Controller
     }
 
     /**
-     * Updates an existing Colaboradores model.
+     * Updates an existing Resumo model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -110,7 +113,7 @@ class ColaboradoresController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_colaborador]);
+            return $this->redirect(['view', 'id' => $model->resumo_id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -119,7 +122,7 @@ class ColaboradoresController extends Controller
     }
 
     /**
-     * Deletes an existing Colaboradores model.
+     * Deletes an existing Resumo model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -132,19 +135,18 @@ class ColaboradoresController extends Controller
     }
 
     /**
-     * Finds the Colaboradores model based on its primary key value.
+     * Finds the Resumo model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Colaboradores the loaded model
+     * @return Resumo the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Colaboradores::findOne($id)) !== null) {
+        if (($model = Resumo::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-
 }
