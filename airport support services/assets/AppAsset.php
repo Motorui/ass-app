@@ -18,9 +18,19 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+
+        'gentelella-master/vendors/bootstrap/dist/css/bootstrap.min.css',
+        'gentelella-master/vendors/font-awesome/css/font-awesome.min.css',
+        'gentelella-master/build/css/custom.min.css',
         'css/site.css',
+
     ];
     public $js = [
+
+        //'gentelella-master/vendors/jquery/dist/jquery.min.js',
+        'gentelella-master/vendors/bootstrap/dist/js/bootstrap.min.js',
+        'gentelella-master/build/js/custom.min.js',
+
     ];
     public $depends = [
         'yii\web\YiiAsset',
