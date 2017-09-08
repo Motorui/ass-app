@@ -15,13 +15,11 @@ class ColaboradoresSearch extends Colaboradores
     /**
      * @inheritdoc
      */
-    public $procuraGlobal;
-
     public function rules()
     {
         return [
-            [['id_colaborador'], 'integer'],
-            [['procuraGlobal', 'nome_colaborador', 'email_colaborador', 'identificao_colaborador', 'identificao_validade', 'status_colaborador'], 'safe'],
+            [['id_colaborador', 'num_pw', 'num_cartao', 'id_contrato', 'id_carga_horaria', 'id_ccusto', 'id_avenca'], 'integer'],
+            [['nome_colaborador', 'email_colaborador', 'identificao_colaborador', 'identificao_validade', 'status_colaborador', 'validade_cartao', 'inicio_contrato', 'fim_contrato'], 'safe'],
         ];
     }
 
@@ -59,10 +57,25 @@ class ColaboradoresSearch extends Colaboradores
             return $dataProvider;
         }
 
-        $query->orFilterWhere(['like', 'nome_colaborador', $this->procuraGlobal])
-            ->orFilterWhere(['like', 'email_colaborador', $this->procuraGlobal])
-            ->orFilterWhere(['like', 'identificao_colaborador', $this->procuraGlobal])
-            ->orFilterWhere(['like', 'status_colaborador', $this->procuraGlobal]);
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'id_colaborador' => $this->id_colaborador,
+            'identificao_validade' => $this->identificao_validade,
+            'num_pw' => $this->num_pw,
+            'num_cartao' => $this->num_cartao,
+            'validade_cartao' => $this->validade_cartao,
+            'id_contrato' => $this->id_contrato,
+            'inicio_contrato' => $this->inicio_contrato,
+            'fim_contrato' => $this->fim_contrato,
+            'id_carga_horaria' => $this->id_carga_horaria,
+            'id_ccusto' => $this->id_ccusto,
+            'id_avenca' => $this->id_avenca,
+        ]);
+
+        $query->andFilterWhere(['like', 'nome_colaborador', $this->nome_colaborador])
+            ->andFilterWhere(['like', 'email_colaborador', $this->email_colaborador])
+            ->andFilterWhere(['like', 'identificao_colaborador', $this->identificao_colaborador])
+            ->andFilterWhere(['like', 'status_colaborador', $this->status_colaborador]);
 
         return $dataProvider;
     }

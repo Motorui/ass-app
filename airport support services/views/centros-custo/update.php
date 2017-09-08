@@ -5,12 +5,16 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\CentrosCusto */
 
-$this->title = 'Atualiza Centro de Custo: ' . $model->nome_ccusto;
-$this->params['breadcrumbs'][] = ['label' => 'Centros Custos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->nome_ccusto, 'url' => ['view', 'id' => $model->id_ccusto]];
-$this->params['breadcrumbs'][] = 'Atualizar';
+$this->title = Yii::t('app', 'Update {modelClass}: ', [
+    'modelClass' => 'Centros Custo',
+]) . $model->id_ccusto;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Centros Custos'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->id_ccusto, 'url' => ['view', 'id' => $model->id_ccusto]];
+$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 <div class="centros-custo-update">
+
+    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,

@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\CentrosCusto */
@@ -10,14 +10,14 @@ use yii\bootstrap\ActiveForm;
 
 <div class="centros-custo-form">
 
-    <?php $form = ActiveForm::begin(['layout' => 'horizontal', 'id'=> $model->formName()]); ?>
+    <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'num_ccusto')->textInput() ?>
 
     <?= $form->field($model, 'nome_ccusto')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Gravar' : 'Atualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

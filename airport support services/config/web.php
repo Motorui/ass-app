@@ -44,8 +44,32 @@ $config = [
             'rules' => [
             // Your rules here
             ],
-        ],      
+        ],
+        'authManager' => [
+            'class'=>'yii\rbac\DbManager',
+        ],
+        'formatter' => [
+            'dateFormat' => 'dd/MM/yyyy',
+            'decimalSeparator' => ',',
+            'thousandSeparator' => ' ',
+            'currencyCode' => 'EUR',
+            'locale' => 'pt-PT', //your language locale
+           'defaultTimeZone' => 'Europe/Lisbon', // time zone
+       ],      
     ],
+    'modules' => [
+      'admin' => [
+        'class' => 'mdm\admin\Module', 
+        ],
+    ],
+    'as access' => [
+        'class' => 'mdm\admin\components\AccessControl',
+        'allowActions' => [
+            'site/*',
+        ],
+    ],
+    // set target language
+    'language' => 'pt-PT',
     'params' => $params,
 ];
 

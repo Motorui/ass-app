@@ -11,7 +11,7 @@ use Yii;
  * @property integer $num_ccusto
  * @property string $nome_ccusto
  *
- * @property VinculoLaboral[] $vinculoLaborals
+ * @property Colaboradores[] $colaboradores
  */
 class CentrosCusto extends \yii\db\ActiveRecord
 {
@@ -33,7 +33,6 @@ class CentrosCusto extends \yii\db\ActiveRecord
             [['num_ccusto'], 'integer'],
             [['nome_ccusto'], 'string', 'max' => 100],
             [['nome_ccusto'], 'unique'],
-            [['num_ccusto'], 'unique'],
         ];
     }
 
@@ -43,17 +42,22 @@ class CentrosCusto extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_ccusto' => 'Id Centro de custo',
-            'num_ccusto' => 'Número',
-            'nome_ccusto' => 'Nome',
+            'id_ccusto' => Yii::t('app', 'Id'),
+            'num_ccusto' => Yii::t('app', 'Número'),
+            'nome_ccusto' => Yii::t('app', 'Nome'),
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getVinculoLaborals()
+    public function getColaboradores()
     {
-        return $this->hasMany(VinculoLaboral::className(), ['centro_custo' => 'id_ccusto']);
+        return $this->hasMany(Colaboradores::className(), ['id_ccusto' => 'id_ccusto']);
+    }
+
+    public function getDisplayName()
+    {
+        return $this->num_ccusto.' - '.$this->nome_ccusto;
     }
 }

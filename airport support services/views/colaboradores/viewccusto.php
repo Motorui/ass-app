@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'inicio_contrato:date',
             // 'fim_contrato:date',
             // 'id_carga_horaria',
-            // 'id_ccusto',
+            //'id_ccusto',
             // 'id_avenca',
 
             ['class' => 'yii\grid\ActionColumn'],

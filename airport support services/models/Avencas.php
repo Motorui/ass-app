@@ -13,7 +13,7 @@ use Yii;
  * @property string $data_avenca
  *
  * @property Parques $idParque
- * @property VinculoLaboral[] $vinculoLaborals
+ * @property Colaboradores[] $colaboradores
  */
 class Avencas extends \yii\db\ActiveRecord
 {
@@ -46,10 +46,10 @@ class Avencas extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_avenca' => 'Id Avenca',
-            'id_parque' => 'Id Parque',
-            'num_avenca' => 'Num Avenca',
-            'data_avenca' => 'Data Avenca',
+            'id_avenca' => Yii::t('app', 'Id Avenca'),
+            'id_parque' => Yii::t('app', 'Id Parque'),
+            'num_avenca' => Yii::t('app', 'Num Avenca'),
+            'data_avenca' => Yii::t('app', 'Data Avenca'),
         ];
     }
 
@@ -64,8 +64,8 @@ class Avencas extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getVinculoLaborals()
+    public function getColaboradores()
     {
-        return $this->hasMany(VinculoLaboral::className(), ['id_avenca' => 'id_avenca']);
+        return $this->hasMany(Colaboradores::className(), ['id_avenca' => 'id_avenca']);
     }
 }

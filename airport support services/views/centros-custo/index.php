@@ -2,21 +2,23 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\bootstrap\Modal;
-use yii\helpers\Url;
-
+use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CentrosCustoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Centros de Custo';
+$this->title = Yii::t('app', 'Centros Custos');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="centros-custo-index">
 
-    <?php  //echo $this->render('_search', ['model' => $searchModel]); ?>
+    <h1><?= Html::encode($this->title) ?></h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?= GridView::widget([
+    <p>
+        <?= Html::a(Yii::t('app', 'Create Centros Custo'), ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+<?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -29,23 +31,4 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-
-    <p>
-        <?= Html::button('Criar Novo', ['value'=>Url::to('index.php?r=centros-custo/create'), 'class' => 'btn btn-success', 'id'=>'modalButton']) ?>
-    </p>
-
-    <?php
-
-        Modal::begin([
-            'header' => 'Criar Centro de Custo',
-            'id'     => 'modal',
-            'size'   => 'modal-lg',
-        ]);
-
-        echo "<div id='modalContent'></div>";
-
-        Modal::end();
-
-    ?>
-  
-</div>
+<?php Pjax::end(); ?></div>

@@ -11,7 +11,7 @@ use Yii;
  * @property string $desc_carga_horaria
  * @property integer $horas_carga_horaria
  *
- * @property VinculoLaboral[] $vinculoLaborals
+ * @property Colaboradores[] $colaboradores
  */
 class CargaHoraria extends \yii\db\ActiveRecord
 {
@@ -43,17 +43,17 @@ class CargaHoraria extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_carga_horaria' => 'Id Carga Horaria',
-            'desc_carga_horaria' => 'Descrição',
-            'horas_carga_horaria' => 'Horas Semanais',
+            'id_carga_horaria' => Yii::t('app', 'Id Carga Horaria'),
+            'desc_carga_horaria' => Yii::t('app', 'Desc Carga Horaria'),
+            'horas_carga_horaria' => Yii::t('app', 'Horas Carga Horaria'),
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getVinculoLaborals()
+    public function getColaboradores()
     {
-        return $this->hasMany(VinculoLaboral::className(), ['carga_horaria' => 'id_carga_horaria']);
+        return $this->hasMany(Colaboradores::className(), ['id_carga_horaria' => 'id_carga_horaria']);
     }
 }

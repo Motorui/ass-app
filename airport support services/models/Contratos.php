@@ -10,7 +10,7 @@ use Yii;
  * @property integer $id_contrato
  * @property string $tipo_contrato
  *
- * @property VinculoLaboral[] $vinculoLaborals
+ * @property Colaboradores[] $colaboradores
  */
 class Contratos extends \yii\db\ActiveRecord
 {
@@ -40,16 +40,16 @@ class Contratos extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_contrato' => 'Id de Contrato',
-            'tipo_contrato' => 'Tipo de Contrato',
+            'id_contrato' => Yii::t('app', 'Id Contrato'),
+            'tipo_contrato' => Yii::t('app', 'Tipo Contrato'),
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getVinculoLaborals()
+    public function getColaboradores()
     {
-        return $this->hasMany(VinculoLaboral::className(), ['tipo_contrato' => 'id_contrato']);
+        return $this->hasMany(Colaboradores::className(), ['id_contrato' => 'id_contrato']);
     }
 }

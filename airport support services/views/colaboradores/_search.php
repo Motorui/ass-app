@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\ColaboradoresSearch */
@@ -9,21 +9,47 @@ use yii\bootstrap\ActiveForm;
 ?>
 
 <div class="colaboradores-search">
-    <div class="col-md-5 col-sm-5 col-xs-12 form-group top_search pull-right">
 
-        <?php $form = ActiveForm::begin([
-            'action' => ['index'],
-            'method' => 'get',
-        ]); ?>
+    <?php $form = ActiveForm::begin([
+        'action' => ['index'],
+        'method' => 'get',
+    ]); ?>
 
-        <?= $form->field($model, 'procuraGlobal', [
-            'template' => '<div class="input-group">{input}<span class="input-group-btn">' .
-            Html::submitButton('Procurar', ['class' => 'btn btn-default']) .
-            '</span></div>',
-        ])->textInput(['placeholder' => 'Procurar'])->textInput()->label('') ?>
+    <?= $form->field($model, 'id_colaborador') ?>
 
+    <?= $form->field($model, 'nome_colaborador') ?>
+
+    <?= $form->field($model, 'email_colaborador') ?>
+
+    <?= $form->field($model, 'identificao_colaborador') ?>
+
+    <?= $form->field($model, 'identificao_validade') ?>
+
+    <?php // echo $form->field($model, 'status_colaborador') ?>
+
+    <?php // echo $form->field($model, 'num_pw') ?>
+
+    <?php // echo $form->field($model, 'num_cartao') ?>
+
+    <?php // echo $form->field($model, 'validade_cartao') ?>
+
+    <?php // echo $form->field($model, 'id_contrato') ?>
+
+    <?php // echo $form->field($model, 'inicio_contrato') ?>
+
+    <?php // echo $form->field($model, 'fim_contrato') ?>
+
+    <?php // echo $form->field($model, 'id_carga_horaria') ?>
+
+    <?php // echo $form->field($model, 'id_ccusto') ?>
+
+    <?php // echo $form->field($model, 'id_avenca') ?>
+
+    <div class="form-group">
+        <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
     </div>
+
+    <?php ActiveForm::end(); ?>
+
 </div>
-        <?php ActiveForm::end(); ?>
-<div class="clearfix"></div>
-<p></p>
