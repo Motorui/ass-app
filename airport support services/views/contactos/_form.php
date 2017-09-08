@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\Colaboradores;
+use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Contactos */
@@ -14,10 +15,14 @@ use app\models\Colaboradores;
 
     <?php $form = ActiveForm::begin(['layout' => 'horizontal']); ?>
 
-    <?= $form->field($model, 'id_colaborador')->dropDownList(
-    	ArrayHelper::map(Colaboradores::find()->all(), 'id_colaborador', 'nome_colaborador'),
-    	['prompt'=>'Selecionar Colaborador']
-    ) ?>
+    <?= $form->field($model, 'id_colaborador')->widget(Select2::classname(), [
+        'data' => ArrayHelper::map(Colaboradores::find()->all(), 'id_colaborador', 'nome_colaborador'),
+        'language' => 'pt',
+        'options' => ['placeholder' => 'Selecionar Colaborador'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
 
     <?= $form->field($model, 'contacto')->textInput() ?>
 

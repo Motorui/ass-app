@@ -27,7 +27,7 @@ use dosamigos\datepicker\DatePicker;
         //'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
         'clientOptions' => [
             'autoclose' => true,
-            'format' => 'dd-M-yyyy'
+            'format' => 'yyyy-m-dd'
         ]
     ]);?>
 
