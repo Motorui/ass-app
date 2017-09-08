@@ -38,8 +38,7 @@
         "wbraganca/yii2-dynamicform": "dev-master",
         
         "mdmsoft/yii2-admin": "2.x-dev",
-        "sjaakp/yii2-gcharts": "*",
-        "miloschuman/yii2-highcharts-widget": "*"
+        "sjaakp/yii2-gcharts": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

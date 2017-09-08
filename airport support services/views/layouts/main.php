@@ -43,7 +43,6 @@ AppAsset::register($this);
                     '<li class="dropdown-header">Outros</li>',
                     ['label' => 'Centros de Custo', 'url' => ['/centros-custo']],
                     ['label' => 'Fornecedores', 'url' => ['/fornecedores']],
-                    ['label' => 'Formações', 'url' => ['/formacoes']],
                 ],
             ],
             ['label' => 'About', 'url' => ['/site/about']],
@@ -73,17 +72,7 @@ AppAsset::register($this);
 
 
         if ( Yii::$app->user->can('administrador') )
-        $items[] = ['label' => 'Administrador',
-                    'items' => [
-                        ['label' => 'Permissões', 'url' => ['/admin/assignment']],
-                        ['label' => 'default', 'url' => ['/admin/default']],
-                        ['label' => 'Menus', 'url' => ['/admin/menu']],
-                        ['label' => 'Routes', 'url' => ['/admin/route']],
-                        ['label' => 'Regras', 'url' => ['/admin/rule']],
-                        ['label' => 'Users', 'url' => ['/admin/user']],
-                        ['label' => 'Criar Utilizador', 'url' => ['/admin/user/signup']],
-                    ],
-                ];
+        $items[] = ['label' => 'Permissions', 'url' => ['/admin/assignment']];
 
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
@@ -103,9 +92,9 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; portway <?= date('Y') ?></p>
+        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
 
-        <p class="pull-right">&copy; <?= Html::mailto('Rui Pereira', 'rui.santos@portway.pt') ?> <?= date('Y') ?></p>
+        <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>
 

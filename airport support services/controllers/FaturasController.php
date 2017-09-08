@@ -15,8 +15,8 @@ use yii\filters\VerbFilter;
 class FaturasController extends Controller
 {
     /**
-    * @inheritdoc
-    */
+     * @inheritdoc
+     */
     public function behaviors()
     {
         return [
@@ -36,20 +36,11 @@ class FaturasController extends Controller
     public function actionIndex()
     {
         $searchModel = new FaturasSearch();
-
-        $id_ccusto = Yii::$app->getRequest()->getQueryParam('id_ccusto');
-
-        if (!$id_ccusto) {
-            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        }else{
-            $searchModel->id_ccusto = $id_ccusto;
-            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        };
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'id_ccusto' => $id_ccusto,
         ]);
     }
 
@@ -77,12 +68,9 @@ class FaturasController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', "Your message to display");
-            // return $this->render('create', [
-            //     'model' => $model,
-            // ]);
-            return $this->redirect(Yii::$app->request->referrer);
-            //or Yii::app()->request->redirect('controller/action');
-            //Yii::app()->end();
+            return $this->render('create', [
+                'model' => $model,
+            ]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -90,6 +78,24 @@ class FaturasController extends Controller
         }
     }
 
+    /**
+     * Creates a new Faturas model in modal version.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreatemodal()
+    {
+        $model = new Faturas();
+        $model->tipo_fatura = 'Fatura';
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id_fatura]);
+        } else {
+            return $this->renderAjax('createmodal', [
+                'model' => $model,
+            ]);
+        }
+    }
 
     /**
      * Updates an existing Faturas model.

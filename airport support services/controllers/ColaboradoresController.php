@@ -36,20 +36,11 @@ class ColaboradoresController extends Controller
     public function actionIndex()
     {
         $searchModel = new ColaboradoresSearch();
-
-        $id_ccusto = Yii::$app->getRequest()->getQueryParam('id_ccusto');
-        
-        if (!$id_ccusto) {
-            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        }else{
-            $searchModel->id_ccusto = $id_ccusto;
-            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        };
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'id_ccusto' => $id_ccusto,
         ]);
     }
 

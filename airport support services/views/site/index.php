@@ -1,7 +1,6 @@
 <?php
 use yii\widgets\ListView;
 use yii\helpers\url;
-use yii\helpers\html;
 /* @var $this yii\web\View */
 
 $this->title = 'Airport Support Serviçes';
@@ -9,64 +8,47 @@ $this->title = 'Airport Support Serviçes';
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Airport Support Serviçes.</h1>
-        <p class="lead">Bem-vindo!</p>
+        <h1>Bem-vindo!</h1>
+
+        <p class="lead">Airport Support Serviçes.</p>
+
     </div>
 
     <div class="body-content">
 
         <div class="row">
+            <div class="col-lg-4">
+                <h2>Centros de Custo</h2>
 
-            <?php  
-                foreach ($dataProvider->models as $model) {
-                    $url = Url::toRoute(['centros-custo/view', 'id' => $model->id_ccusto]);
+                <p>
+                    <?php  foreach ($dataProvider->models as $model) {
+                        $url = Url::toRoute(['colaboradores/viewccusto', 'id' => $model->id_ccusto]);
+                        echo "<p><a class='btn btn-default' href='$url'>$model->nome_ccusto</a></p>";
+                        }
+                    ?>
+                </p>
 
-                    echo "<div class='col-lg-4 clearfix'>";
+            </div>
+            <div class="col-lg-4">
+                <h2>Heading</h2>
 
-                    echo "<ul class='list-group'>";
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                    fugiat nulla pariatur.</p>
 
-                    echo "<li class='list-group-item'>
-                            <h3>
-                                <strong>$model->nome_ccusto</strong>
-                            </h3>
-                        </li>";
+                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
+            </div>
+            <div class="col-lg-4">
+                <h2>Heading</h2>
 
-                    echo "<li class='list-group-item'>
-                            <h4>
-                                <strong>Faturas</strong>
-                            </h4>
-                        </li>";
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                    fugiat nulla pariatur.</p>
 
-                    echo "<li class='list-group-item'>".Html::a('Inserir Faturas', ['faturas/create', 'id_ccusto' => $model->id_ccusto], ['class' => ''])."</li>";
-
-                    echo "<li class='list-group-item'>".Html::a('Listagem Faturas', ['faturas/index', 'id_ccusto' => $model->id_ccusto], ['class' => ''])."</li>";
-
-                    echo "<li class='list-group-item'>
-                        <h4>
-                            <strong>Colaboradores</strong>
-                        </h4>
-                    </li>";
-
-                    echo "<li class='list-group-item'>".Html::a('Inserir Colaboradores', ['colaboradores/create', 'id_ccusto' => $model->id_ccusto], ['class' => ''])."</li>";
-
-                    echo "<li class='list-group-item'>".Html::a('Listagem Colaboradores', ['colaboradores/index', 'id_ccusto' => $model->id_ccusto], ['class' => ''])."</li>";
-
-                    echo "<li class='list-group-item'>
-                        <h4>
-                            <strong>Formações</strong>
-                        </h4>
-                    </li>";
-
-                    echo "<li class='list-group-item'>".Html::a('Listagem Formações', ['formacoes-colaborador/index', 'id_ccusto' => $model->id_ccusto], ['class' => ''])."</li>";
-
-                    echo "<li class='list-group-item'>".Html::a('Atribuir Formações', ['formacoes-colaborador/create', 'id_ccusto' => $model->id_ccusto], ['class' => ''])."</li>";                 
-
-                    echo "</ul>";
-
-                    echo '</div>';
-                }                    
-            ?>
-            
+                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+            </div>
         </div>
 
     </div>

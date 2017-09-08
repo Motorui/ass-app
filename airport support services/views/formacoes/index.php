@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\FormacoesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Formações');
+$this->title = Yii::t('app', 'Formacoes');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="formacoes-index">

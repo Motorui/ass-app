@@ -17,54 +17,10 @@ use kartik\daterange\DateRangePicker;
 /* @var $searchModel app\models\FaturasSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-    if (!$id_ccusto) {
-        $input_id_ccusto = [
-            'attribute' => 'id_ccusto',
-            'value' => 'idCcusto.nome_ccusto',
-            'filter'=>ArrayHelper::map(CentrosCusto::find()->asArray()->all(), 'id_ccusto', 'nome_ccusto'),
-            'format'=>'text',
-        ];
-        $content = (
-            Html::a('<i class="glyphicon glyphicon-plus"></i>', 
-                ['faturas/create'],
-                ['class' => 'btn btn-success'])
-            .' '.
-            Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''], [
-                'class' => 'btn btn-default', 
-                'title' => Yii::t('kvgrid', 'Limpar')
-            ])
-        );
-
-        $nome_ccusto = 'Total';
-    }else{
-        $input_id_ccusto = [
-            'attribute' => 'id_ccusto',
-            'value' => 'idCcusto.nome_ccusto',
-            'filter'=> false,
-            'format'=>'text',
-            'visible'=>false,
-        ];
-        $content = (
-            Html::a('<i class="glyphicon glyphicon-plus"></i>', 
-                ['faturas/create', 'id_ccusto' => $id_ccusto],
-                ['class' => 'btn btn-success'])
-            .' '.
-            Html::a('<i class="glyphicon glyphicon-repeat"></i>',
-                ['faturas/index', 'id_ccusto' => $id_ccusto],
-                ['class' => 'btn btn-default', 
-                'title' => Yii::t('kvgrid', 'Limpar')
-            ])
-        );
-        $ccusto = CentrosCusto::findOne(['id_ccusto' => $id_ccusto]);
-        $nome_ccusto = $ccusto->nome_ccusto;
-
-    }; 
-
 $this->title = Yii::t('app', 'Faturas');
 $this->params['breadcrumbs'][] = $this->title;
 
 $valor = 0;
-
 if (!empty($dataProvider->getModels())) {
  foreach ($dataProvider->getModels() as $key => $val) {
      $valor -= $val->valor_fatura;
@@ -72,7 +28,12 @@ if (!empty($dataProvider->getModels())) {
 }
 
 $gridColumns  = [
-        $input_id_ccusto,
+    [
+        'attribute' => 'id_ccusto',
+        'value' => 'idCcusto.nome_ccusto',
+        'filter'=>ArrayHelper::map(CentrosCusto::find()->asArray()->all(), 'id_ccusto', 'nome_ccusto'),
+        'format'=>'text',
+    ],
     [
         'attribute' => 'tipo_fatura',
         'filter'=>array("Fatura"=>"Fatura","Nota de Crédito"=>"Nota de Crédito"),
@@ -199,6 +160,18 @@ $exportMenu = ExportMenu::widget([
 ?>
 
 <div class="faturas-index">
+
+    <?php
+        Modal::begin([
+            'header' => '<h4>Adicionar Faturas</h4>',
+            'id' => 'modal',
+            'size' => 'modal-md',
+            ]);
+
+        echo "<div id='modalContent'></div>";
+
+        Modal::end();
+    ?>
   
     <?= GridView::widget([
         'dataProvider'=> $dataProvider,
@@ -215,9 +188,18 @@ $exportMenu = ExportMenu::widget([
         ],
         'resizableColumns'=>true,
         'resizeStorageKey'=>Yii::$app->user->id . '-' . date("m"),
-        'toolbar' => [
-            [
-            'content'=> $content,
+    'toolbar' => [
+        [
+            'content'=>
+                Html::button('<i class="glyphicon glyphicon-plus"></i>', 
+                    ['value' => Url::to('faturas/createmodal'),
+                    'class' => 'btn btn-success showModalButton', 'id'=>'showModalButton',
+                ])
+                .' '.
+                Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''], [
+                    'class' => 'btn btn-default', 
+                    'title' => Yii::t('kvgrid', 'Limpar')
+                ]),
         ],
         $exportMenu,
         '{toggleData}'
@@ -237,11 +219,9 @@ $exportMenu = ExportMenu::widget([
             ],
         ],
         'panel' => [
-            'heading'=>'<h3 class="panel-title"><i class="glyphicon glyphicon-list-alt"></i> Faturas - '.
-            $nome_ccusto
-            .'</h3>',
+            'heading'=>'<h3 class="panel-title"><i class="glyphicon glyphicon-list-alt"></i> '.Html::encode($this->title).'</h3>',
             'type'=>'success',
-            'footer'=>true
+            'footer'=>false
         ],
         'rowOptions'=>function($model){
             if($model->valor_fatura < 0 ){

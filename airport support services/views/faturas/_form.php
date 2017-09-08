@@ -20,19 +20,6 @@ use dosamigos\datepicker\DatePicker;
 <div class="faturas-form">
 
 <?php
-
-    if ($id_ccusto = Yii::$app->getRequest()->getQueryParam('id_ccusto')) {
-        $input_id_ccusto = ['type'=>Form::INPUT_DROPDOWN_LIST,
-                        'items'=>ArrayHelper::map(CentrosCusto::find()->select(
-                        ['id_ccusto', 'num_ccusto', 'nome_ccusto']
-                        )->where(['id_ccusto'=>$id_ccusto])->all(), 'id_ccusto', 'displayName'),];
-    }else{
-        $input_id_ccusto = ['type'=>Form::INPUT_DROPDOWN_LIST, 
-                'items'=>ArrayHelper::map(CentrosCusto::find()->select(
-                ['id_ccusto', 'num_ccusto', 'nome_ccusto']
-                )->all(), 'id_ccusto', 'displayName'),];
-    };
-
     $form = ActiveForm::begin(['type'=>ActiveForm::TYPE_VERTICAL, 'id'=>'faturasform']);
 
     echo Form::widget([
@@ -40,7 +27,13 @@ use dosamigos\datepicker\DatePicker;
         'form'=>$form,
         'columns'=>2,
         'attributes'=>[
-            'id_ccusto'=>$input_id_ccusto,        
+            'id_ccusto'=>[
+                'type'=>Form::INPUT_DROPDOWN_LIST, 
+                'items'=>ArrayHelper::map(CentrosCusto::find()->select(
+                ['id_ccusto', 'num_ccusto', 'nome_ccusto']
+                )->all(), 'id_ccusto', 'displayName'),
+
+            ],        
             'id_fornecedor'=>[
                 'type'=>Form::INPUT_DROPDOWN_LIST, 
                 'items'=>ArrayHelper::map(Fornecedores::find()->select(
@@ -82,21 +75,19 @@ use dosamigos\datepicker\DatePicker;
                 'type'=>Form::INPUT_TEXT,
             ],
             'valor_fatura'=>[
-                'type'=>Form::INPUT_TEXT,
+                'type'=>Form::INPUT_TEXT, 
             ],
             'actions'=>[
             'type'=>Form::INPUT_RAW, 
             'value'=>'<div style="text-align: left; margin-top: 20px">' . 
                 Html::resetButton('Limpar', ['class'=>'btn btn-default']) . ' ' .
-                Html::submitButton($model->isNewRecord ? Yii::t('app', 'Criar') : Yii::t('app', 'Atualizar'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) . 
+                Html::submitButton($model->isNewRecord ? Yii::t('app', 'Gravar') : Yii::t('app', 'Atualizar'), ['class' => $model->isNewRecord ? 'btn btn-primary' : 'btn btn-primary']) . 
                 '</div>'
             ],
         ]
     ]);
 
     ActiveForm::end();
-
 ?>
-
 
 </div>
