@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\CentrosCusto;
-use app\models\CentrosCustoSearch;
+use app\models\searches\CentrosCustoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

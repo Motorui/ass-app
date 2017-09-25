@@ -5,12 +5,16 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Contratos */
 
-$this->title = 'Atualiza tipo de Contrato: ' . $model->tipo_contrato;
-$this->params['breadcrumbs'][] = ['label' => 'Contratos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->tipo_contrato, 'url' => ['view', 'id' => $model->id_contrato]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = Yii::t('app', 'Update {modelClass}: ', [
+    'modelClass' => 'Contratos',
+]) . $model->id_contrato;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contratos'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->id_contrato, 'url' => ['view', 'id' => $model->id_contrato]];
+$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 <div class="contratos-update">
+
+    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,

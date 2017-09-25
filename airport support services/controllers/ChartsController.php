@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Resumo;
-use app\models\ResumoSearch;
+use app\models\searches\ResumoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

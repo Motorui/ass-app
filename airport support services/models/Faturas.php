@@ -96,11 +96,6 @@ class Faturas extends \yii\db\ActiveRecord
         } else {
 
         }
-
-        // echo '<pre>';
-        // print_r($this);
-        // echo '</pre>';
-        // exit();
         
     return true;
     }

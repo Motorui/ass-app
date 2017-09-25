@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Faturas;
-use app\models\FaturasSearch;
+use app\models\searches\FaturasSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

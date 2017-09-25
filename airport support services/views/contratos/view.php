@@ -6,30 +6,31 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Contratos */
 
-$this->title = $model->tipo_contrato;
-$this->params['breadcrumbs'][] = ['label' => 'Contratos', 'url' => ['index']];
+$this->title = $model->id_contrato;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contratos'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="contratos-view">
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            //'id_contrato',
-            'tipo_contrato',
-        ],
-    ]) ?>
+    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Atualizar', ['update', 'id' => $model->id_contrato], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Apagar', ['delete', 'id' => $model->id_contrato], [
+        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id_contrato], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id_contrato], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Tem a certeza que deseja apagar o tipo de contracto: "'.$model->tipo_contrato.'" ?',
+                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                 'method' => 'post',
             ],
         ]) ?>
-        <?= Html::a('Criar Novo', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+
+    <?= DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            'id_contrato',
+            'tipo_contrato',
+        ],
+    ]) ?>
 
 </div>

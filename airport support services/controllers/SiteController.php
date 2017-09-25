@@ -11,7 +11,7 @@ use app\models\ContactForm;
 use app\models\SignupForm;
 use app\models\PasswordResetRequestForm;
 use app\models\ResetPasswordForm;
-use app\models\CentrosCustoSearch;
+use app\models\searches\CentrosCustoSearch;
 use app\models\CentrosCusto;
 use app\models\UserCcusto;
 use app\models\Colaboradores;
@@ -93,7 +93,7 @@ class SiteController extends Controller
                 'status_colaborador'=>'activo'])->andWhere([
                 '<=', 'fim_contrato', $dataFimContracto
             ])->all();
-        
+      
         }
 
         return $this->render('index', [

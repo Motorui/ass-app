@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\UserCcusto;
-use app\models\UserCcustoSearch;
+use app\models\searches\UserCcustoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -63,14 +63,19 @@ class UserCcustoController extends Controller
     public function actionCreate()
     {
         $model = new UserCcusto();
-
+        
         if ($model->load(Yii::$app->request->post())) {
+            
+            $id_user = $model->id_user;
 
-            //$model->save()
-            $data = $_POST;
+            foreach ($_POST['UserCcusto']['id_ccusto'] as $id_ccusto) {
+            $usercc = new UserCcusto;
+            $usercc->id_user = $id_user;
+            $usercc->id_ccusto = $id_ccusto;
+            $usercc->save();
+            }
 
             return $this->render('create', [
-                'test' => $data,
                 'model' => $model,
             ]);
         } else {

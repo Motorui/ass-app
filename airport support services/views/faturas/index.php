@@ -122,7 +122,7 @@ $gridColumns  = [
     ],
 
     [
-        'class' => 'kartik\grid\ActionColumn',
+        //'class' => 'kartik\grid\ActionColumn',
 
     ],
 ];
@@ -131,6 +131,10 @@ $exportMenu = ExportMenu::widget([
     'dataProvider' => $dataProvider,
     'columns' => $gridColumns,
     'target' => ExportMenu::TARGET_BLANK,
+    'showFooter'=> true,
+    'showPageSummary' => true,
+    'condensed'=> true,
+    'bootstrap' => true,
     'fontAwesome' => false,
     'showConfirmAlert'=>false,
     'pjaxContainerId' => 'kv-pjax-container',
@@ -146,10 +150,18 @@ $exportMenu = ExportMenu::widget([
         ExportMenu::FORMAT_CSV => false,
         ExportMenu::FORMAT_TEXT => false,
         ExportMenu::FORMAT_PDF => [
+            'showHeader' => true,
+            'showPageSummary' => true,
+            'showFooter' => true,
+            'showCaption' => true,
             //'filename' => 'TESTE',
-        'contentBefore'=>['TESTE'],
+            'contentBefore'=>['TESTE'],
         ],
         ExportMenu::FORMAT_EXCEL => [
+            'showHeader' => true,
+            'showPageSummary' => true,
+            'showFooter' => true,
+            'showCaption' => true,
             'cssInline'     => '.kv-wrap{padding:20px;}' .
                 '.kv-align-center{text-align:center;}' .
                 '.kv-align-left{text-align:left;}' .
@@ -176,6 +188,7 @@ $exportMenu = ExportMenu::widget([
                 'contentBefore' => '',
                 'contentAfter'  => ''
             ],
+
             ExportMenu::FORMAT_EXCEL_X => [
                 'font' => [
                     'bold' => true,

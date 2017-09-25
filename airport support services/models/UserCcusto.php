@@ -64,13 +64,5 @@ class UserCcusto extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'id_user']);
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCcusto()
-    {
-        return $this->hasMany(CentrosCusto::className(), ['id_ccusto' => 'id_ccusto']);
-    }
     
 }

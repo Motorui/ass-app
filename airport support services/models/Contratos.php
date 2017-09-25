@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "contratos".
+ * This is the model class for table "{{%contratos}}".
  *
  * @property integer $id_contrato
  * @property string $tipo_contrato
@@ -19,7 +19,7 @@ class Contratos extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'contratos';
+        return '{{%contratos}}';
     }
 
     /**

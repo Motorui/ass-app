@@ -1,7 +1,10 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+
+use kartik\widgets\ActiveForm;
+use kartik\builder\Form;
+use kartik\builder\FormGrid;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Formacoes */
@@ -10,13 +13,22 @@ use yii\widgets\ActiveForm;
 
 <div class="formacoes-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['type'=>ActiveForm::TYPE_VERTICAL, 'id'=>'formacoesForm']); ?>
 
-    <?= $form->field($model, 'nome_formacao')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'sigla_formacao')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'validade_formacao')->textInput() ?>
+    <?= FormGrid::widget([
+      'model'=>$model,
+      'form'=>$form,
+      'autoGenerateColumns'=>true,
+      'rows'=>[
+        [
+          'attributes'=>[
+            'nome_formacao'=>['type'=>Form::INPUT_TEXT,],
+            'sigla_formacao'=>['type'=>Form::INPUT_TEXT,],
+            'validade_formacao'=>['type'=>Form::INPUT_TEXT,],
+          ],
+        ],
+      ],
+    ]); ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

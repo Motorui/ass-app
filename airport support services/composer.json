@@ -20,8 +20,10 @@
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0",
 
+        "bower-asset/admin-lte": "*",
+
         "2amigos/yii2-date-picker-widget": "~1.0",
-        
+
         "kartik-v/yii2-grid": "@dev",
         "kartik-v/yii2-widgets": "*",
         "kartik-v/yii2-widget-select2": "@dev",
@@ -37,10 +39,11 @@
         "kartik-v/yii2-checkbox-x": "*",
 
         "wbraganca/yii2-dynamicform": "dev-master",
-        
+
         "mdmsoft/yii2-admin": "2.x-dev",
         "sjaakp/yii2-gcharts": "*",
-        "miloschuman/yii2-highcharts-widget": "*"
+        "miloschuman/yii2-highcharts-widget": "*",
+        "kartik-v/yii2-icons": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

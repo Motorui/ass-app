@@ -42,7 +42,7 @@ $this->registerJs($js);
                         'min' => 1, // 0 or 1 (default 1)
                         'insertButton' => '.add-item', // css class
                         'deleteButton' => '.remove-item', // css class
-                        'model' => $modelsContactos[0],
+                        'model' => $modelsContactos,
                         'formId' => 'dynamic-form',
                         'formFields' => [
                             'contacto',

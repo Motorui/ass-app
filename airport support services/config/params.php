@@ -7,7 +7,8 @@ return [
     'dateControlDisplayTimezone'=>  'Europe/Lisbon',
     'dateControlSaveTimezone'=>  'Europe/Lisbon',
     'languages'=>[
-	    //'en'=>'English', 
+	    //'en'=>'English',
 	    'pt'=>'Português'
-	],
+	   ],
+     'icon-framework' => 'fa',
 ];

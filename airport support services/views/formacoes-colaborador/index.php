@@ -4,8 +4,8 @@ use yii\helpers\Html;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
 
-use app\models\FormacoesColaboradorSearch;
-use app\models\ColaboradorSearch;
+use app\models\searches\FormacoesColaboradorSearch;
+use app\models\searches\ColaboradorSearch;
 use app\models\CentrosCusto;
 
 /* @var $this yii\web\View */
@@ -68,5 +68,5 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= $urlCreate ?>
     </p>
-    
+
 </div>

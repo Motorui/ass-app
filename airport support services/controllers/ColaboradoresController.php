@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Colaboradores;
-use app\models\ColaboradoresSearch;
+use app\models\searches\ColaboradoresSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -36,9 +36,8 @@ class ColaboradoresController extends Controller
     public function actionIndex()
     {
         $searchModel = new ColaboradoresSearch();
-
         $id_ccusto = Yii::$app->getRequest()->getQueryParam('id_ccusto');
-        
+
         if (!$id_ccusto) {
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         }else{
@@ -53,16 +52,33 @@ class ColaboradoresController extends Controller
         ]);
     }
 
-    public function actionViewccusto($id)
+    /**
+     * Lists all Colaboradores models.
+     * @return mixed
+     */
+    public function actionTerminus()
     {
-        $searchModel = new ColaboradoresSearch();
-        $searchModel->id_ccusto = $id;
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        //$dataProvider = $searchModel->searchByCcusto(Yii::$app->request->queryParams);
+      \yii\helpers\Url::remember();
+      $dataFimContracto = date('Y-m-d', strtotime('+3 month'));
 
-        return $this->render('viewccusto', [
+        $searchModel = new ColaboradoresSearch();
+        $id_ccusto = Yii::$app->getRequest()->getQueryParam('id_ccusto');
+
+        if (!$id_ccusto) {
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        }else{
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            $dataProvider->query->where([
+                'id_ccusto' => $id_ccusto,
+                'status_colaborador'=>'activo'])->andWhere([
+                '<=', 'fim_contrato', $dataFimContracto
+            ]);
+        };
+
+        return $this->render('terminus', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'id_ccusto' => $id_ccusto,
         ]);
     }
     /**
@@ -72,12 +88,8 @@ class ColaboradoresController extends Controller
      */
     public function actionView($id)
     {
-        $model = $this->findModel($id);
-        $modelsContactos = $model->contactos;
-
         return $this->render('view', [
-            'model' => $model,
-            'modelsContactos' => $modelsContactos,
+            'model' => $this->findModel($id),
         ]);
     }
 
@@ -109,8 +121,14 @@ class ColaboradoresController extends Controller
     {
         $model = $this->findModel($id);
 
+        $id_ccusto = Yii::$app->request->get('id_ccusto');
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_colaborador]);
+            if ($id_ccusto) {
+                return $this->redirect(['index', 'id' => $model->id_ccusto, 'id' => $id_ccusto]);
+            }else{
+                return $this->goBack();
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -146,5 +164,4 @@ class ColaboradoresController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-
 }

@@ -4,10 +4,10 @@ namespace app\controllers;
 
 use Yii;
 use app\models\FormacoesColaborador;
-use app\models\FormacoesColaboradorSearch;
+use app\models\searches\FormacoesColaboradorSearch;
 use app\models\Formacoes;
 use app\models\Colaboradores;
-use app\models\ColaboradoresSearch;
+use app\models\searches\ColaboradoresSearch;
 
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

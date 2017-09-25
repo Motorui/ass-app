@@ -2,8 +2,11 @@
 use yii\widgets\ListView;
 use yii\helpers\url;
 use yii\helpers\html;
+use yii\helpers\ArrayHelper;
 use yii\bootstrap\Collapse;
 use kartik\sidenav\SideNav;
+
+use app\models\CentrosCusto;
 
 /* @var $this yii\web\View */
 
@@ -41,13 +44,13 @@ if (!empty($ccusto)) {
                             ['label' => 'Colaboradores', 'icon'=>'user', 'items' => [
                                 ['label' => 'Inserir', 'icon'=>'edit', 'url'=>$urlInsereColaboradores],
                                 ['label' => 'Listagem', 'icon'=>'list-alt', 'url'=>$urlListagemColaboradores],
-                                ],                            
+                                ],
                             ],
                             ['label' => 'Formações', 'icon'=>'book', 'items' => [
                                 ['label' => 'Inserir', 'icon'=>'edit', 'url'=>$urlInsereFormacoes],
                                 ['label' => 'Listagem', 'icon'=>'list-alt', 'url'=>$urlListagemFormacoes],
-                                ],                            
-                            ]                             
+                                ],
+                            ]
                         ]
                 ];
             }
@@ -56,7 +59,7 @@ if (!empty($ccusto)) {
                 'type' => SideNav::TYPE_PRIMARY,
                 'heading' => 'Centros de Custo',
                 'items' => $items,
-    
+
             ]);
 
 
@@ -65,33 +68,31 @@ if (!empty($ccusto)) {
             <div class="col-md-9">
                 <?php
                     if ($colaboradores) {
+                      $colaborador = ArrayHelper::map($colaboradores , 'nome_colaborador' ,'id_colaborador' ,'id_ccusto');
+
+                      echo '<div class="bs-callout bs-callout-danger">';
+                        echo '<h4>Existem colaboradores a terminar o contrato</h4>';
+                      echo '</div>';
+                      foreach ($colaborador as $idccusto => $data) {
+                        $ccustodata = CentrosCusto::findOne(['id_ccusto' => $idccusto]);
+                        $nomeccusto = $ccustodata->nome_ccusto.' - <span class="label label-pill label-danger">'.count($data).'</span>';
                         echo '<div class="bs-callout bs-callout-danger">';
-                            echo '<h4>Os seguintes colaboradores estão prestes a terminar o contrato</h4>';
-                            foreach ($colaboradores as $colaborador) {
-                                echo '<p>';
-                                echo Html::a($colaborador->nome_colaborador, ['colaboradores/view', 'id' => $colaborador->id_colaborador, 'id_ccusto' => $colaborador->id_ccusto], ['class' => 'profile-link']);
-                                echo '</p>';
-                            }
+                        echo Html::a($nomeccusto, ['colaboradores/terminus', 'id' => $ccustodata->id_ccusto, 'id_ccusto' => $ccustodata->id_ccusto], ['class' => '']);
                         echo '</div>';
-                        
+                      }
+
                     } else {
                         echo '<div class="bs-callout bs-callout-success">';
                             echo '<h4>Não existem colaboradores a terminar o contrato</h4>';
                         echo '</div>';
                     }
-                ?>
-            <pre>
-        <?php
-            echo $dataFimContracto;
-            echo '<p></p>';
-            print_r($colaboradores);
 }else{
         ?>
-        </pre>
+
         </div>
             <div class="jumbotron">
-                <h1>Contacte o administrador</h1> 
-                <p>Ainda não tem acesso a centros de custo, por favor contacte o administrador.</p> 
+                <h1>Contacte o administrador</h1>
+                <p>Ainda não tem acesso a centros de custo, por favor contacte o administrador.</p>
           </div>
 <?php } ?>
 </div>

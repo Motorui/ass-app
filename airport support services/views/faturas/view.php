@@ -5,9 +5,16 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Faturas */
+$id_ccusto = Yii::$app->request->get('id_ccusto');
 
 $this->title = $model->num_fatura;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Faturas'), 'url' => ['index']];
+
+if (null !==($id_ccusto)) {
+    $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Faturas'), 'url' => ['index', 'id_ccusto' => $id_ccusto]];
+}else{
+    $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Faturas'), 'url' => ['index']];
+}
+
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="faturas-view">

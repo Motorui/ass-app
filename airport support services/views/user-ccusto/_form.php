@@ -2,10 +2,9 @@
 
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
-//use yii\widgets\ActiveForm;
 
 use kartik\widgets\ActiveForm;
-use kartik\checkbox\CheckboxX;
+use kartik\widgets\Select2;
 use kartik\builder\Form;
 use kartik\widgets\Typeahead;
 
@@ -15,49 +14,39 @@ use app\models\CentrosCusto;
 /* @var $this yii\web\View */
 /* @var $model app\models\UserCcusto */
 /* @var $form yii\widgets\ActiveForm */
+
+    $centroscusto = CentrosCusto::find()->all();
+    $form = ActiveForm::begin(['id' => 'user-ccusto-form', 'type' => ActiveForm::TYPE_VERTICAL]);
 ?>
 
 <div class="user-ccusto-form">
+    <div class="form-group col-sm-6">
 
-<?php
+        <?= $form->field($model, 'id_user', ['showLabels'=>false])->widget(Select2::classname(), [
+                'data'=>ArrayHelper::map(User::find()->select(
+                    ['id', 'displayname']
+                    )->all(), 'id', 'displayname'),
+                'pluginOptions'=>['allowClear'=>true],
+                'options' => ['placeholder'=>'Selecionar Utilizador...']
+            ]); ?>
 
-    $form = ActiveForm::begin(['type'=>ActiveForm::TYPE_INLINE, 'id'=>'user-ccusto-form']);
- 
-    $centrosCusto = CentrosCusto::find()->all();
-
-    echo Form::widget([
-        'model'=>$model,
-        'form'=>$form,
-        'columns'=>1,
-        'attributes'=>[       
-            'id_user'=>[
-                'type'=>Form::INPUT_DROPDOWN_LIST, 
-                'items'=>ArrayHelper::map(User::find()->select(
-                        ['id', 'displayname']
-                        )->all(), 'id', 'displayname'),
-                'columnOptions'=>['width'=>'100px']
+        <?= $form->field($model, 'id_ccusto')->widget(Select2::classname(), [
+            'data' => ArrayHelper::map($centroscusto, 'id_ccusto', 'nome_ccusto'),
+            'options' => [
+                'placeholder' => 'Selecionar Centros de Custo ...',
+                'multiple' => true
             ],
-            //'id_ccusto'=>, 
-        ]
-    ]);
+            'pluginOptions' => [
+                'allowClear' => true
+            ],
+        ]); ?>
 
-    foreach ($centrosCusto as $row) {
+    </div>
 
-    echo '<p>';
-    
-    echo CheckboxX::widget([
-        'name'=>$row['nome_ccusto'],
-        'options'=>['id_ccusto'=>$row['id_ccusto']],
-        'pluginOptions'=>['threeState'=>false]
-    ]);
-    echo '<label class="cbx-label" for="s_1"> '.$row['nome_ccusto'].'</label>';
-
-    echo '</p>';
-    }
-?>
-    <div class="form-group">
+    <div class="form-group col-sm-12">        
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Gravar') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
+
 <?php
 
 ActiveForm::end();
@@ -73,4 +62,5 @@ print_r($_POST);
 }
 echo '</pre>';
 ?>
+
 </div>

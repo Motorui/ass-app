@@ -5,12 +5,12 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Colaboradores */
 
-$this->title = Yii::t('app', 'Update {modelClass}: ', [
+$this->title = Yii::t('app', 'Atualizar Colaborador: ', [
     'modelClass' => 'Colaboradores',
-]) . $model->id_colaborador;
+]) . $model->nome_colaborador;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Colaboradores'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id_colaborador, 'url' => ['view', 'id' => $model->id_colaborador]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+$this->params['breadcrumbs'][] = ['label' => $model->nome_colaborador, 'url' => ['view', 'id' => $model->id_colaborador]];
+$this->params['breadcrumbs'][] = Yii::t('app', 'Atualizar');
 ?>
 <div class="colaboradores-update">
 
