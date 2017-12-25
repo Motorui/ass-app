@@ -1,3 +1,3 @@
 <?php
-header("location: /ass/web/");
+header("location: /ass_development/web/");
 ?>
