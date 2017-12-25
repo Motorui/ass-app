@@ -1,5 +1,5 @@
 language: php
-
+dist: trusty
 php:
   - 5.4
   - 5.5
@@ -24,7 +24,8 @@ matrix:
 
 install:
   - travis_retry composer self-update
-  - travis_retry composer install --no-interaction --prefer-source --dev
+  - travis_retry composer global require "fxp/composer-asset-plugin"
+  - travis_retry composer install --no-interaction --prefer-dist --no-dev
 
 script:
   - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
